@@ -233,7 +233,7 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
   <section class="view" id="v-suggestions">
     <div class="sughead"><div><h2 style="margin:0">Suggestions du jour</h2><div class="hint" id="sugInfo"></div></div>
       <div class="filters" style="margin:0"><select id="sugFilter"><option value="">Toutes</option><option value="parfait">⭐ Parfaits seulement</option></select><button class="btn sm" id="sugUnhide" hidden>Réafficher les masquées</button></div></div>
-    <div class="hint" style="margin:6px 0 14px">Critères : T2 ou T3, 900 € charges comprises max, balcon ou terrasse, parking ou box ; arrondissements dans l'ordre 6e, 5e, 10e, 4e, 9e, 3e, 2e, 8e. Sinon, un seul critère assoupli (jusqu'à 1 000 €, T1, sans extérieur ou sans parking). Les annonces déjà dans « Mes logements » n'apparaissent pas. Sources : Bien'ici et Le Figaro (SeLoger, Leboncoin et PAP bloquent la lecture automatique).</div>
+    <div class="hint" style="margin:6px 0 14px">Critères : T2 ou T3, 900 € charges comprises max, balcon ou terrasse, parking ou box ; arrondissements dans l'ordre 6e, 5e, 10e, 4e, 9e, 3e, 2e, 8e. Sinon, un seul critère assoupli (jusqu'à 1 000 €, T1, sans extérieur ou sans parking). Les annonces déjà dans « Mes logements » n'apparaissent pas. Source : Bien'ici, qui regroupe les annonces de la plupart des agences (Le Figaro, SeLoger, Leboncoin et PAP bloquent la lecture automatique depuis les serveurs de GitHub).</div>
     <div class="list" id="sugList"></div>
     <div style="text-align:center;margin-top:14px"><button class="btn" id="sugMore" hidden></button></div>
   </section>
@@ -667,7 +667,7 @@ async function loadSug(){
 function renderSug(){
   if(!SUG) return;
   const g=new Date(SUG.genere), old=(Date.now()-g)/36e5>30;
-  $("#sugInfo").innerHTML = `Mis à jour le ${esc(g.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}))} à ${esc(g.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))} · ${(+SUG.lues?.bienici||0)+(+SUG.lues?.figaro||0)} annonces analysées · ${+SUG.parfaits||0} parfaites` + (old?" · ⚠️ pas de mise à jour récente":"") + " · nouvelle liste chaque jour avant 17 h";
+  $("#sugInfo").innerHTML = `Mis à jour le ${esc(g.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}))} à ${esc(g.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))} · ${(+SUG.lues?.bienici||0)+(+SUG.lues?.figaro||0)} annonces analysées · ${+SUG.parfaits||0} parfaites` + (old?" · ⚠️ pas de mise à jour récente":"") + ((SUG.echecs||[]).length?` · ⚠️ ${esc(SUG.echecs.join(" et "))} n'a pas pu être lu aujourd'hui`:"") + " · nouvelle liste chaque jour avant 17 h";
   const hid=sugHidden(), onlyP=$("#sugFilter").value==="parfait";
   const all=(SUG.annonces||[]).filter(s=>s&&s.arr&&s.loyer);
   const list=all.filter(s=>!hid.has(s.id) && !sugOnSite(s) && (!onlyP||!(s.assouplissements||[]).length));

@@ -25,6 +25,7 @@ CRITERES = {
     "budget_max_assoupli": 1000,
     "arr_pref": [6, 5, 10, 4, 9, 3, 2, 8],
 }
+ECHECS = []  # sources indisponibles pendant cette analyse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -92,6 +93,8 @@ def bienici():
         out += ads
         frm += 100
         time.sleep(1)
+    if not out:
+        ECHECS.append("Bien'ici")
     print(f"Bien'ici : {len(out)} annonces (≤ {CRITERES['budget_max_assoupli']} €, 1 à 3 pièces)", file=sys.stderr)
     res = []
     for a in out:
@@ -166,6 +169,8 @@ def figaro():
         url = "https://immobilier.lefigaro.fr/annonces/immobilier-location-appartement-marseille+13000.html" + (f"?page={page}" if page > 1 else "")
         t = get(url)
         if not t:
+            if page == 1:
+                ECHECS.append("Le Figaro")
             break
         objs = figaro_page(t)
         new = [o for o in objs if o.get("id") not in seen]
@@ -341,6 +346,7 @@ def main():
                   "assouplissements", "publie", "deja_propose")
         sug = {"genere": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
                "lues": {"bienici": len(bi), "figaro": len(fi)},
+               "echecs": ECHECS,
                "parfaits": sum(1 for x in items if not x["assouplissements"] and not x["suspect"]),
                "criteres": CRITERES,
                "annonces": [{k: x.get(k) for k in champs} for x in pool]}
