@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mes logements à Marseille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/*LEAFLET_CSS*/</style>
+<style>
+:root{
+  color-scheme: light; --warn-bg:#fdf3dc; --warn-line:#eda100;
+  --bg:#f4f3f0; --surface:#fcfcfb; --surface-2:#f0efec; --border:#e2e0da;
+  --text:#0b0b0b; --text-2:#52514e; --muted:#7d7b75;
+  --accent:#2a78d6; --accent-ink:#fff; --danger:#c43a3a;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#8a8880;
+  --bar:#2a78d6; --sea:#cfdfec; --land:#fbfaf7; --land-alt:#f3f1ea; --land-hi:#e9eef6; --land-2:#e6e4dd; --land-line:#c9c6bd; --arr-line:#a9a59a; --arr-txt:#9b978c;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme: dark; --warn-bg:#3a2e12; --warn-line:#c98500;
+    --bg:#121211; --surface:#1a1a19; --surface-2:#23231f; --border:#33322e;
+    --text:#f0efec; --text-2:#c3c2b7; --muted:#8f8d85;
+    --accent:#3987e5; --danger:#e66767;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#8f8d85;
+    --bar:#3987e5; --sea:#152230; --land:#24241f; --land-alt:#2b2a25; --land-hi:#2a3240; --land-2:#1b1b19; --land-line:#45443e; --arr-line:#64625a; --arr-txt:#7d7b72;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+    color-scheme: dark; --warn-bg:#3a2e12; --warn-line:#c98500;
+    --bg:#121211; --surface:#1a1a19; --surface-2:#23231f; --border:#33322e;
+    --text:#f0efec; --text-2:#c3c2b7; --muted:#8f8d85;
+    --accent:#3987e5; --danger:#e66767;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#8f8d85;
+    --bar:#3987e5; --sea:#152230; --land:#24241f; --land-alt:#2b2a25; --land-hi:#2a3240; --land-2:#1b1b19; --land-line:#45443e; --arr-line:#64625a; --arr-txt:#7d7b72;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:1000;background:var(--surface);border-bottom:1px solid var(--border)}
+.hwrap{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px}
+.brand small{font-weight:500;color:var(--muted);font-size:13px}
+nav{display:flex;gap:4px;background:var(--surface-2);padding:3px;border-radius:10px}
+nav a{padding:6px 14px;border-radius:8px;text-decoration:none;color:var(--text-2);font-weight:500}
+nav a.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+.spacer{flex:1}
+.btn{border:1px solid var(--border);background:var(--surface);padding:7px 14px;border-radius:9px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.danger{color:var(--danger)}
+.btn.sm{padding:4px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+main{max-width:1280px;margin:0 auto;padding:20px}
+.banner{padding:10px 14px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);margin-bottom:16px;color:var(--text-2)}
+.banner:empty{display:none}
+.view{display:none}.view.on{display:block}
+h2{font-size:15px;margin:0 0 12px;font-weight:600}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.tile .lbl{color:var(--text-2);font-size:13px}
+.tile .val{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+.tile .sub{color:var(--muted);font-size:12px;margin-top:2px;min-height:17px}
+.grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+#map{height:520px;border-radius:10px;background:var(--sea);border:1px solid var(--border)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12.5px;color:var(--text-2)}
+.legend label{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.legend input{margin:0}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.hbar{display:grid;grid-template-columns:minmax(120px,auto) 1fr 32px;align-items:center;gap:8px;margin:7px 0;font-size:13px}
+.hbar .name{color:var(--text-2);display:flex;gap:6px;align-items:center;white-space:nowrap}
+.hbar .track{height:14px;position:relative}
+.hbar .fill{height:100%;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px;transition:width .3s}
+.hbar .num{font-variant-numeric:tabular-nums;color:var(--text);text-align:right;font-weight:600}
+.hbar:hover .fill{filter:brightness(1.12)}
+.empty{color:var(--muted);font-size:13px;padding:10px 0}
+.upc{display:flex;flex-direction:column;gap:8px}
+.upc .it{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--surface-2);cursor:pointer}
+.upc .it:hover{outline:1px solid var(--border)}
+.upc .date{font-weight:600;min-width:86px;font-variant-numeric:tabular-nums}
+.upc .t{color:var(--text-2)}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.feat .f{background:var(--surface-2);border-radius:10px;padding:10px}
+.feat .f .v{font-size:20px;font-weight:700}
+.feat .f .l{font-size:12px;color:var(--text-2)}
+/* liste */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.filters input,.filters select{border:1px solid var(--border);background:var(--surface);border-radius:9px;padding:7px 10px}
+.filters input[type=search]{min-width:220px}
+.count{color:var(--muted);font-size:13px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.item{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px;cursor:pointer;border-left:4px solid var(--sc,var(--border))}
+.item:hover{border-color:var(--text-2);border-left-color:var(--sc)}
+.item .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.item .title{font-weight:600;font-size:15px}
+.item .loc{color:var(--text-2);font-size:13px}
+.item .price{font-weight:700;font-size:15px;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-2)}
+.chip.on{color:var(--text);font-weight:500}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;padding:3px 9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border)}
+.item .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.item .links{display:flex;gap:10px}
+.item .links a{font-size:12.5px;text-decoration:none}
+.item .links a:hover{text-decoration:underline}
+.ico{font-style:normal}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px 12px}
+.overlay.on{display:flex}
+.modal{background:var(--surface);border-radius:16px;width:min(880px,100%);max-height:calc(100vh - 40px);display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3);border:1px solid var(--border)}
+.mhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface);border-radius:16px 16px 0 0;z-index:5}
+.mhead h3{margin:0;font-size:16px;flex:1}
+.mbody{padding:18px;display:flex;flex-direction:column;gap:18px;overflow-y:auto;flex:1;min-height:0}
+.mfoot{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--border);justify-content:flex-end;flex-wrap:wrap;background:var(--surface);border-radius:0 0 16px 16px}
+fieldset{border:1px solid var(--border);border-radius:12px;padding:12px 14px 14px;margin:0}
+legend{font-weight:600;padding:0 6px;font-size:13.5px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.fld{display:flex;flex-direction:column;gap:4px}
+.fld>span{font-size:12.5px;color:var(--text-2);font-weight:500}
+.fld input,.fld select,.fld textarea{border:1px solid var(--border);background:var(--bg);border-radius:9px;padding:8px 10px;width:100%}
+.fld textarea{resize:vertical;min-height:70px}
+.fld input:focus,.fld select:focus,.fld textarea:focus,.filters input:focus,.filters select:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.seg{display:flex;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:3px}
+.seg button{flex:1;border:0;background:transparent;padding:5px 8px;border-radius:7px;cursor:pointer;color:var(--text-2)}
+.seg button.on{background:var(--accent);color:#fff;font-weight:500}
+.hint{font-size:12.5px;color:var(--muted)}
+.detect{font-size:12.5px;padding:8px 10px;border-radius:9px;background:var(--surface-2);color:var(--text-2);display:none}
+.detect.on{display:block}
+#miniMap{height:260px;border-radius:10px;background:var(--sea);border:1px solid var(--border);margin-top:10px}
+.statuses{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px}
+.statuses button{border:1px solid var(--border);background:var(--bg);border-radius:10px;padding:8px 10px;text-align:left;cursor:pointer;display:flex;gap:8px;align-items:center;font-size:13px}
+.statuses button.on{border-color:var(--sc);box-shadow:inset 0 0 0 1px var(--sc);background:var(--surface-2);font-weight:600}
+.comments{display:flex;flex-direction:column;gap:8px}
+.cmt{background:var(--surface-2);border-radius:10px;padding:9px 12px;position:relative}
+.cmt .meta{font-size:11.5px;color:var(--muted);margin-bottom:3px;display:flex;justify-content:space-between}
+.cmt .txt{white-space:pre-wrap;word-break:break-word}
+.cmt button{border:0;background:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0}
+.cmt button:hover{color:var(--danger)}
+.addc{display:flex;gap:8px;align-items:flex-end}
+.addc textarea{flex:1;min-height:56px}
+.confirm{display:none;gap:8px;align-items:center;font-size:13px}
+.confirm.on{display:flex}
+.dupnotice{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:10px;margin-bottom:16px;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--text)}
+.dupbox{padding:8px 10px;border-radius:9px;background:var(--warn-bg);border:1px solid var(--warn-line);font-size:12.5px;color:var(--text)}
+.sughead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.tier{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;display:inline-block}
+.tier.p{background:var(--warn-bg);border:1px solid var(--warn-line)}
+.tier.a{background:var(--surface-2);border:1px solid var(--border);color:var(--text-2);font-weight:500}
+.item.sug{cursor:default}
+.item.sug .acts{display:flex;gap:8px;flex-wrap:wrap}
+.item.dup{border-style:dashed;opacity:.8}
+.ro .mfoot>*:not(#bCancel),.ro .addc,.ro .cmt button,.ro #bDetect,.ro #bClaude,.ro #detectHint,.ro #bResetPos,.ro #mDup .btn{display:none!important}
+.ro .fld:has(textarea[name=texte]){display:none}
+.ro .mbody input,.ro .mbody textarea,.ro .mbody select,.ro .mbody button{pointer-events:none}
+.toast{max-width:min(640px,92vw);text-align:center;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 16px;border-radius:10px;z-index:3000;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+/* map labels/pins */
+.arr-lbl{background:transparent;border:0;box-shadow:none;font-weight:800;color:var(--arr-txt);font-size:15px;text-shadow:0 0 3px var(--land),0 0 3px var(--land)}
+.arr-lbl:before{display:none}
+.q-lbl{background:transparent;border:0;box-shadow:none;color:var(--muted);font-size:10.5px;opacity:.85;text-shadow:0 0 3px var(--land)}
+.q-lbl:before{display:none}
+.pin{width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid var(--surface);box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.pin i{transform:rotate(45deg);font-style:normal;font-size:13px;line-height:1}
+.leaflet-container{font-family:inherit;background:var(--sea)}
+.poi{display:flex;align-items:center;gap:4px;white-space:nowrap;pointer-events:none}
+.poi span{width:22px;height:22px;flex:none;border-radius:50%;background:var(--surface);border:1px solid var(--land-line);display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.poi b{font-weight:600;font-size:11px;color:var(--text-2);text-shadow:0 0 3px var(--land),0 0 3px var(--land),0 0 2px var(--land)}
+.z-lo .poi.r2{display:none}.z-lo .poi.r1 b{display:none}.z-mid .poi.r2 b{display:none}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--text)}
+.leaflet-popup-content{margin:12px 14px;font-size:13px;min-width:200px}
+.pop .t{font-weight:600;font-size:14px;margin-bottom:2px}
+.pop .s{color:var(--text-2);margin-bottom:6px}
+.pop button{margin-top:8px}
+.leaflet-bar a{background:var(--surface);color:var(--text);border-color:var(--border)}
+.tip{position:fixed;z-index:3000;background:var(--text);color:var(--bg);padding:5px 9px;border-radius:7px;font-size:12px;pointer-events:none;display:none}
+@media (max-width:900px){
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .grid2,.grid3{grid-template-columns:1fr}
+  #map{height:420px}
+}
+</style>
+</head>
+<body>
+<header><div class="hwrap">
+  <div class="brand">🏠 Mes logements <small>Marseille</small></div>
+  <nav><a href="#tableau-de-bord" data-v="tableau-de-bord">Tableau de bord</a><a href="#annonces" data-v="annonces">Annonces</a><a href="#suggestions" data-v="suggestions" id="navSug" hidden>✨ Suggestions</a></nav>
+  <div class="spacer"></div>
+  <button class="btn" id="btnImport" hidden title="Charger les annonces d'un fichier « Version à partager »">📥 Importer un fichier</button>
+  <input type="file" id="fileImport" accept=".html,.htm,.json" hidden>
+  <button class="btn" id="btnExport" hidden title="Télécharger une copie consultable sans compte Claude">📤 Version à partager</button>
+  <button class="btn" id="btnLogout" hidden>Se déconnecter</button>
+  <button class="btn primary" id="btnAdd">＋ Ajouter une annonce</button>
+</div></header>
+
+<main>
+  <div class="banner" id="banner">Chargement de vos annonces…</div>
+  <div class="dupnotice" id="dupNotice" hidden></div>
+
+  <section class="view" id="v-tableau-de-bord">
+    <div class="tiles">
+      <div class="card tile"><div class="lbl">Annonces suivies</div><div class="val" id="kTotal">–</div><div class="sub" id="kTotalSub"></div></div>
+      <div class="card tile"><div class="lbl">Prochaine visite</div><div class="val" id="kNext">–</div><div class="sub" id="kNextSub"></div></div>
+      <div class="card tile"><div class="lbl">En attente d'une réponse</div><div class="val" id="kWait">–</div><div class="sub" id="kWaitSub"></div></div>
+      <div class="card tile"><div class="lbl">Actions à faire</div><div class="val" id="kTodo">–</div><div class="sub" id="kTodoSub"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h2>Carte des annonces</h2>
+        <div id="map"></div>
+        <div class="legend" id="mapLegend"></div>
+        <div class="hint" style="margin-top:6px">Position approximative au quartier (ou à l'arrondissement) sauf si vous l'avez placée vous-même sur la carte.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card"><h2>Avancement des demandes</h2><div id="chStatus"></div></div>
+        <div class="card"><h2>Visites à venir</h2><div class="upc" id="upcoming"></div></div>
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="card"><h2>Caractéristiques</h2><div class="feat" id="feat"></div></div>
+      <div class="card"><h2>Loyers (charges comprises)</h2><div class="feat" id="rent"></div></div>
+      <div class="card"><h2>Par arrondissement</h2><div id="chArr"></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-suggestions">
+    <div class="sughead"><div><h2 style="margin:0">Suggestions du jour</h2><div class="hint" id="sugInfo"></div></div>
+      <div class="filters" style="margin:0"><select id="sugFilter"><option value="">Toutes</option><option value="parfait">⭐ Parfaits seulement</option></select><button class="btn sm" id="sugUnhide" hidden>Réafficher les masquées</button></div></div>
+    <div class="hint" style="margin:6px 0 14px">Critères : T2 ou T3, 900 € charges comprises max, balcon ou terrasse, parking ou box ; arrondissements dans l'ordre 6e, 5e, 10e, 4e, 9e, 3e, 2e, 8e. Sinon, un seul critère assoupli (jusqu'à 1 000 €, T1, sans extérieur ou sans parking). Les annonces déjà dans « Mes logements » n'apparaissent pas. Sources : Bien'ici et Le Figaro (SeLoger, Leboncoin et PAP bloquent la lecture automatique).</div>
+    <div class="list" id="sugList"></div>
+    <div style="text-align:center;margin-top:14px"><button class="btn" id="sugMore" hidden></button></div>
+  </section>
+
+  <section class="view" id="v-annonces">
+    <div class="filters">
+      <input type="search" id="fQ" placeholder="Rechercher (quartier, agence, titre…)">
+      <select id="fStatus"><option value="">Tous les états</option><option value="__dup">⚠️ Doublons</option></select>
+      <select id="fType"><option value="">Tous les types</option><option>T1</option><option>T2</option><option>T3</option><option value="Autre">Autre</option></select>
+      <select id="fArr"><option value="">Tous les arrondissements</option></select>
+      <select id="fSort">
+        <option value="maj">Tri : dernière modification</option>
+        <option value="visite">Tri : date de visite</option>
+        <option value="loyer">Tri : loyer croissant</option>
+        <option value="arr">Tri : arrondissement</option>
+      </select>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+</main>
+
+<div class="overlay" id="ov">
+  <form class="modal" id="form" autocomplete="off">
+    <div class="mhead"><h3 id="mTitle">Nouvelle annonce</h3><button type="button" class="btn sm" id="mClose">✕</button></div>
+    <div class="mbody">
+      <div class="dupbox" id="mDup" hidden></div>
+      <fieldset>
+        <legend>Liens</legend>
+        <div class="row">
+          <label class="fld"><span>Lien de l'annonce (SeLoger, Bien'ici, Le Figaro…)</span><input type="url" name="urlSeloger" placeholder="https://www.seloger.com/annonces/…"></label>
+          <label class="fld"><span>Lien de l'agence en charge</span><input type="url" name="urlAgence" placeholder="https://www.agence-…"></label>
+        </div>
+        <label class="fld" style="margin-top:10px"><span>Texte de l'annonce (facultatif : copiez-collez la description pour une détection plus précise)</span><textarea name="texte" rows="3" placeholder="Ex. : Appartement T2 de 42 m² avec balcon, quartier Castellane, parking en sous-sol, 780 € CC…"></textarea></label>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
+          <button type="button" class="btn sm" id="bDetect">🔎 Détecter depuis les liens</button>
+          <button type="button" class="btn sm" id="bClaude" hidden>✨ Analyser avec Claude</button>
+          <span class="hint" id="detectHint">Aucun des deux liens n'est obligatoire.</span>
+        </div>
+        <div class="detect" id="detectOut"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Caractéristiques</legend>
+        <div class="row">
+          <label class="fld" style="grid-column:1/-1"><span>Titre</span><input name="titre" placeholder="Ex. : T2 lumineux Notre-Dame-du-Mont"></label>
+          <div class="fld"><span>Type</span><div class="seg" data-seg="type"><button type="button" data-val="T1">T1</button><button type="button" data-val="T2">T2</button><button type="button" data-val="T3">T3</button><button type="button" data-val="Autre">Autre</button></div></div>
+          <div class="fld"><span>Parking</span><div class="seg" data-seg="parking"><button type="button" data-val="oui">Oui</button><button type="button" data-val="non">Non</button></div></div>
+          <div class="fld"><span>Extérieur</span><div class="seg" data-seg="exterieur"><button type="button" data-val="aucun">Aucun</button><button type="button" data-val="balcon">Balcon</button><button type="button" data-val="terrasse">Terrasse</button></div></div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <label class="fld"><span>Loyer CC (€ / mois)</span><input name="loyer" type="number" min="0" step="1" inputmode="numeric"></label>
+          <label class="fld"><span>Surface (m²)</span><input name="surface" type="number" min="0" step="0.5" inputmode="decimal"></label>
+          <label class="fld"><span>Agence</span><input name="agence" placeholder="Nom de l'agence"></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Localisation</legend>
+        <div class="row">
+          <label class="fld"><span>Arrondissement</span><select name="arr"><option value="">—</option></select></label>
+          <label class="fld"><span>Quartier</span><input name="quartier" list="dlQ" placeholder="Ex. : Castellane"></label>
+          <label class="fld"><span>Adresse / rue (facultatif)</span><input name="adresse" placeholder="Ex. : rue de Rome"></label>
+        </div>
+        <datalist id="dlQ"></datalist>
+        <div id="miniMap"></div>
+        <div style="display:flex;justify-content:space-between;gap:8px;margin-top:6px;flex-wrap:wrap">
+          <span class="hint" id="posHint">Cliquez sur la carte pour placer précisément le logement.</span>
+          <button type="button" class="btn sm" id="bResetPos" hidden>Revenir à la position du quartier</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>État de la demande</legend>
+        <div class="statuses" id="stBtns"></div>
+        <label class="fld" id="visitFld" style="margin-top:10px;max-width:280px"><span>Date et heure de la visite</span><input type="datetime-local" name="dateVisite"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Commentaires</legend>
+        <div class="comments" id="cmts"></div>
+        <div class="addc fld" style="margin-top:8px"><textarea id="cNew" placeholder="Ajouter un commentaire (impressions de visite, contact agent, pièces demandées…)"></textarea><button type="button" class="btn sm" id="bAddC">Ajouter</button></div>
+      </fieldset>
+    </div>
+    <div class="mfoot">
+      <div class="confirm" id="delConfirm"><span>Supprimer définitivement ?</span><button type="button" class="btn sm danger" id="bDelYes">Oui, supprimer</button><button type="button" class="btn sm" id="bDelNo">Annuler</button></div>
+      <button type="button" class="btn danger" id="bDel">Supprimer</button>
+      <div class="spacer"></div>
+      <button type="button" class="btn" id="bCancel">Annuler</button>
+      <button type="submit" class="btn primary" id="bSave">Enregistrer</button>
+    </div>
+  </form>
+</div>
+<form class="overlay on" id="login" hidden autocomplete="on" style="align-items:center">
+  <div class="modal" style="width:min(380px,100%)"><div class="mbody">
+    <h3 style="margin:0">🏠 Mes logements à Marseille</h3>
+    <div class="hint">Connectez-vous pour voir et modifier la liste partagée.</div>
+    <label class="fld"><span>E-mail</span><input id="lgEmail" type="email" autocomplete="username" required></label>
+    <label class="fld"><span>Mot de passe</span><input id="lgPwd" type="password" autocomplete="current-password" required></label>
+    <div id="lgErr" style="color:var(--danger);font-size:13px;min-height:18px"></div>
+    <button class="btn primary" id="lgBtn" type="submit" style="justify-content:center">Se connecter</button>
+  </div></div>
+</form>
+<div class="toast" id="toast"></div>
+<div class="tip" id="tip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script id="app">
+"use strict";
+// Copie du document d'origine (avant tout rendu), pour l'export d'une version autonome
+const PAGE_SRC = document.documentElement.outerHTML;
+/* ---------- Données de référence ---------- */
+const COMMUNES = /*COMMUNES*/;
+const ARRS = /*ARRS*/;
+const STATUSES = [
+  {id:"a_contacter",          label:"À contacter",                         short:"À contacter",        icon:"☎",  c:"--s1"},
+  {id:"dossier_a_envoyer",    label:"Dossier à envoyer",                   short:"Dossier à envoyer",  icon:"📁", c:"--s2"},
+  {id:"dossier_envoye",       label:"Dossier envoyé",                      short:"Dossier envoyé",     icon:"📨", c:"--s3"},
+  {id:"visite_programmee",    label:"Visite programmée",                   short:"Visite programmée",  icon:"📅", c:"--s4"},
+  {id:"visite_attente",       label:"Visite effectuée, en attente d'une réponse", short:"Visite faite, en attente", icon:"⏳", c:"--s5"},
+  {id:"pause",                label:"Projet en pause",                     short:"Projet en pause",    icon:"⏸️", c:"--s6"},
+];
+const ST = Object.fromEntries(STATUSES.map(s=>[s.id,s]));
+// [nom, arrondissement, lat, lng]
+const QUARTIERS = [
+["Belsunce",1,43.2985,5.3765],["Chapitre",1,43.2998,5.3835],["Noailles",1,43.2962,5.3815],["Opéra",1,43.2935,5.3768],["Saint-Charles",1,43.3035,5.3812],["Thiers",1,43.2975,5.3868],
+["Arenc",2,43.3125,5.3668],["Les Grands-Carmes",2,43.3015,5.3728],["Hôtel de Ville",2,43.2975,5.3700],["La Joliette",2,43.3055,5.3655],
+["Belle de Mai",3,43.3125,5.3885],["Saint-Lazare",3,43.3070,5.3822],["Saint-Mauront",3,43.3150,5.3775],["La Villette",3,43.3110,5.3735],
+["Les Chartreux",4,43.3085,5.4045],["Chutes-Lavie",4,43.3115,5.3995],["Les Cinq-Avenues",4,43.3035,5.3985],["La Blancarde",4,43.2985,5.4080],
+["Baille",5,43.2888,5.3935],["Le Camas",5,43.2948,5.3930],["La Conception",5,43.2900,5.3990],["Saint-Pierre",5,43.2925,5.4060],
+["Castellane",6,43.2858,5.3833],["Lodi",6,43.2880,5.3885],["Notre-Dame-du-Mont",6,43.2925,5.3850],["Palais de Justice",6,43.2882,5.3742],["Préfecture",6,43.2912,5.3800],["Vauban",6,43.2830,5.3775],
+["Bompard",7,43.2800,5.3635],["Les Îles",7,43.2795,5.3250],["Le Pharo",7,43.2918,5.3598],["Roucas-Blanc",7,43.2752,5.3700],["Saint-Lambert",7,43.2845,5.3618],["Saint-Victor",7,43.2892,5.3685],["Endoume",7,43.2832,5.3545],
+["Bonneveine",8,43.2505,5.3850],["Les Goudes",8,43.2165,5.3480],["Montredon",8,43.2355,5.3640],["Périer",8,43.2752,5.3855],["La Plage",8,43.2630,5.3770],["Pointe Rouge",8,43.2440,5.3700],["Rouet",8,43.2812,5.3928],["Sainte-Anne",8,43.2605,5.3955],["Saint-Giniez",8,43.2722,5.3885],["Vieille-Chapelle",8,43.2500,5.3770],
+["Les Baumettes",9,43.2295,5.4130],["Cabot",9,43.2565,5.4195],["Carpiagne",9,43.2350,5.4800],["Mazargues",9,43.2468,5.4040],["La Panouse",9,43.2420,5.4255],["Le Redon",9,43.2375,5.4300],["Sainte-Marguerite",9,43.2620,5.4080],["Sormiou",9,43.2165,5.4180],["Vaufrèges",9,43.2385,5.4405],
+["La Capelette",10,43.2832,5.4040],["Menpenti",10,43.2862,5.3990],["Pont-de-Vivaux",10,43.2752,5.4130],["Saint-Loup",10,43.2772,5.4310],["Saint-Tronc",10,43.2680,5.4285],["La Timone",10,43.2888,5.4062],
+["Les Accates",11,43.3005,5.5000],["La Barasse",11,43.2880,5.4800],["Saint-Marcel",11,43.2870,5.4650],["La Valbarelle",11,43.2800,5.4550],["Les Camoins",11,43.2980,5.5150],["Éoures",11,43.3100,5.5200],["La Millière",11,43.2950,5.4900],["La Pomme",11,43.2900,5.4450],["Saint-Menet",11,43.2900,5.5000],
+["Les Trois-Lucs",12,43.3150,5.4600],["Saint-Barnabé",12,43.3030,5.4200],["Saint-Julien",12,43.3120,5.4420],["Les Caillols",12,43.3040,5.4600],["Montolivet",12,43.3150,5.4250],["Bois-Luzy",12,43.3170,5.4370],["La Fourragère",12,43.3020,5.4380],
+["Château-Gombert",13,43.3555,5.4400],["La Croix-Rouge",13,43.3450,5.4400],["Malpassé",13,43.3320,5.4170],["Les Médecins",13,43.3480,5.4500],["Les Mourets",13,43.3555,5.4700],["Les Olives",13,43.3300,5.4400],["Palama",13,43.3400,5.4600],["La Rose",13,43.3420,5.4220],["Saint-Jérôme",13,43.3350,5.4120],["Saint-Just",13,43.3200,5.4080],["Saint-Mitre",13,43.3500,5.4200],
+["Les Arnavaux",14,43.3330,5.3950],["Bon-Secours",14,43.3270,5.3900],["Le Canet",14,43.3250,5.3850],["Le Merlan",14,43.3380,5.4050],["Saint-Barthélemy",14,43.3380,5.3950],["Saint-Joseph",14,43.3500,5.3900],["Sainte-Marthe",14,43.3450,5.3950],
+["Les Aygalades",15,43.3500,5.3750],["Les Borels",15,43.3600,5.3800],["La Cabucelle",15,43.3270,5.3650],["La Calade",15,43.3380,5.3650],["Les Crottes",15,43.3220,5.3700],["La Delorme",15,43.3420,5.3750],["Notre-Dame-Limite",15,43.3650,5.3750],["Saint-Antoine",15,43.3700,5.3850],["Saint-Louis",15,43.3430,5.3600],["Verduron",15,43.3700,5.3600],["La Viste",15,43.3580,5.3600],
+["L'Estaque",16,43.3625,5.3200],["Les Riaux",16,43.3600,5.3050],["Saint-André",16,43.3550,5.3450],["Saint-Henri",16,43.3600,5.3350],
+];
+// Lieux-dits courants -> [nom affiché, arr, lat, lng]
+const ALIAS = [
+["Le Panier",2,43.2995,5.3680],["Vieux-Port",1,43.2950,5.3745],["Cours Julien",6,43.2938,5.3835],["La Plaine",5,43.2950,5.3880],["Canebière",1,43.2970,5.3800],["Réformés",1,43.2995,5.3860],
+["Longchamp",4,43.3040,5.3945],["Chave",5,43.2935,5.3920],["Eugène Pierre",5,43.2925,5.3960],["Prado",8,43.2730,5.3880],["Rond-Point du Prado",8,43.2725,5.3895],["Borély",8,43.2585,5.3790],
+["Catalans",7,43.2905,5.3565],["Malmousque",7,43.2805,5.3500],["Vallon des Auffes",7,43.2855,5.3500],["Corniche",7,43.2790,5.3560],["Euroméditerranée",2,43.3100,5.3680],["Luminy",9,43.2330,5.4380],
+["Sainte-Marguerite",9,43.2620,5.4080],["Beaumont",12,43.3080,5.4330],["La Pointe-Rouge",8,43.2440,5.3700],["Estaque",16,43.3625,5.3200],["Saint-Giniez",8,43.2722,5.3885],["Baille",5,43.2888,5.3935],
+["Préfecture",6,43.2912,5.3800],["Paradis",6,43.2880,5.3790],["Rome",6,43.2905,5.3810],["Breteuil",6,43.2870,5.3760],["Castellane",6,43.2858,5.3833],["Timone",10,43.2888,5.4062],["Capelette",10,43.2832,5.4040],
+];
+const ARR_LBL = n => n===1 ? "1er" : n+"e";
+const ARR_C = (()=>{const o={};for(let a=1;a<=16;a++){const qs=QUARTIERS.filter(q=>q[1]===a);o[a]=[qs.reduce((s,q)=>s+q[2],0)/qs.length,qs.reduce((s,q)=>s+q[3],0)/qs.length];}o[7]=[43.2830,5.3640];o[8]=[43.2550,5.3800];o[9]=[43.2450,5.4200];return o;})();
+const norm = s => (s||"").toString().normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/['’]/g," ").replace(/[^a-z0-9]+/g," ").trim();
+const PLACES = [...QUARTIERS.map(q=>({n:q[0],a:q[1],lat:q[2],lng:q[3]})), ...ALIAS.map(q=>({n:q[0],a:q[1],lat:q[2],lng:q[3],alias:true}))]
+  .map(p=>({...p,k:norm(p.n),k2:norm(p.n).replace(/^(les|le|la|l) /,"")}));
+function findPlace(name){
+  const k=norm(name); if(!k) return null;
+  return PLACES.find(p=>p.k===k||p.k2===k) || PLACES.find(p=>k.length>3 && (p.k.includes(k)||k.includes(p.k2) && p.k2.length>4)) || null;
+}
+
+/* ---------- Utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => { try{ const x=new URL(u); return /^https?:$/.test(x.protocol)?x.href:""; }catch{ return ""; } };
+const host = u => { try{ return new URL(u).hostname.replace(/^www\./,""); }catch{ return ""; } };
+const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmtEur = n => n==null||n==="" ? "" : Math.round(n).toLocaleString("fr-FR")+" €";
+const fmtDate = (d,withTime=true) => { if(!d) return ""; const x=new Date(d); if(isNaN(x)) return ""; return x.toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})+(withTime?" · "+x.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}):""); };
+const fmtShort = d => { const x=new Date(d); return isNaN(x)?"":x.toLocaleDateString("fr-FR",{day:"numeric",month:"short"}); };
+function hash(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function toast(m,ms){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("on"),ms||2600);}
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+
+function position(l){
+  if(l.lat!=null && l.lng!=null && l.posManuelle) return {lat:l.lat,lng:l.lng,precis:"manuelle"};
+  const p = findPlace(l.quartier);
+  let base=null, prec="";
+  if(p){ base=[p.lat,p.lng]; prec="quartier"; }
+  else if(l.arr){ base=ARR_C[l.arr]; prec="arrondissement"; }
+  if(!base) return null;
+  const h=hash(l.id||"x"); const r=(prec==="quartier"?0.0018:0.004);
+  const ang=(h%360)*Math.PI/180, d=((h>>9)%100)/100*r;
+  return {lat:base[0]+Math.sin(ang)*d, lng:base[1]+Math.cos(ang)*d*1.35, precis:prec};
+}
+
+/* ---------- Détection depuis les liens ---------- */
+function detect(urls, texte){
+  const res={}; const found=[];
+  const raw = urls.filter(Boolean).map(u=>{try{return decodeURIComponent(u)}catch{return u}}).join(" ");
+  texte=(texte||"").replace(/€/g," eur ");
+  const src = norm(raw.replace(/[\/_\-.?=&]+/g," ")) + " " + norm(texte);
+  const s = " "+src+" ";
+  let m = s.match(/ marseille ?(\d{1,2}) ?(?:e|er|eme|ieme|em) /) || s.match(/ (\d{1,2}) ?(?:e|er|eme|ieme) arrondissement /);
+  let m2 = s.match(/ 130(0[1-9]|1[0-6]) /);
+  const a = m ? +m[1] : (m2 ? +m2[1] : null);
+  if(a>=1 && a<=16){ res.arr=a; found.push("arrondissement "+ARR_LBL(a)); }
+  // quartier : le nom le plus long trouvé
+  let best=null;
+  for(const p of PLACES){ for(const k of [p.k,p.k2]){ if(k.length>=4 && s.includes(" "+k+" ") && (!best||k.length>best.len)) best={p,len:k.length}; } }
+  if(best){ res.quartier=best.p.n; if(!res.arr) res.arr=best.p.a; found.push("quartier "+best.p.n); }
+  if(/ (t3|f3|3 pieces|trois pieces) /.test(s)){res.type="T3";found.push("T3");}
+  else if(/ (t1|f1|studio|1 piece|1 pieces|studette) /.test(s)){res.type="T1";found.push("T1");}
+  else if(/ (t2|f2|2 pieces|deux pieces) /.test(s)){res.type="T2";found.push("T2");}
+  if(/ (parking|garage|box|stationnement) /.test(s) && !/ (sans parking|pas de parking) /.test(s)){res.parking="oui";found.push("parking");}
+  if(/ terrasse/.test(s)){res.exterieur="terrasse";found.push("terrasse");}
+  else if(/ balcon/.test(s)){res.exterieur="balcon";found.push("balcon");}
+  const t=norm(texte);
+  const lm = (" "+t+" ").match(/ (\d{3,4}) ?(?:eur|euros|e) ?(?:cc|charges comprises|par mois|mois)?/);
+  if(lm){ res.loyer=+lm[1]; found.push("loyer "+lm[1]+" €"); }
+  const sm = (" "+t+" ").match(/ (\d{2,3}(?: \d)?) ?m2 /) || (" "+t+" ").match(/ (\d{2,3}) ?m /);
+  if(sm){ res.surface=parseFloat(sm[1].replace(" ",".")); found.push(res.surface+" m²"); }
+  return {res,found};
+}
+
+/* ---------- État ---------- */
+let DB=null, SAMPLE=null, COL=null, items=[], ready=false, localMode=false;
+const writing = {}; // une écriture à la fois par document
+function queueWrite(id, fn){ const p=(writing[id]||Promise.resolve()).then(fn,fn); writing[id]=p.catch(()=>{}); return p; }
+let SUPA=null; // client Supabase (version en ligne partagée)
+async function saveDoc(obj){
+  obj.maj = new Date().toISOString();
+  return rawWrite(obj);
+}
+async function rawWrite(obj){
+  if(SUPA){ const {id,...body}=obj; const i=items.findIndex(x=>x.id===id); if(i>=0) items[i]=obj; else items.push(obj); renderAll();
+    return queueWrite(id, async()=>{ const {error}=await SUPA.from("logements").upsert({id, data:JSON.parse(JSON.stringify(body)), maj:obj.maj}); if(error) throw error; }); }
+  if(localMode){ const i=items.findIndex(x=>x.id===obj.id); if(i>=0) items[i]=obj; else items.push(obj); persistLocal(); renderAll(); return; }
+  const {id,...body}=obj;
+  return queueWrite(id, ()=>COL.doc(id).set(JSON.parse(JSON.stringify(body))));
+}
+async function deleteDoc(id){
+  if(SUPA){ items=items.filter(x=>x.id!==id); renderAll(); return queueWrite(id, async()=>{ const {error}=await SUPA.from("logements").delete().eq("id",id); if(error) throw error; }); }
+  if(localMode){ items=items.filter(x=>x.id!==id); persistLocal(); renderAll(); return; }
+  return queueWrite(id, ()=>COL.doc(id).delete());
+}
+let LS_KEY="logements-local", LS_OK=true;
+function persistLocal(){ try{ localStorage.setItem(LS_KEY,JSON.stringify(items)); }catch{ if(LS_OK){ LS_OK=false; $("#banner").textContent="⚠️ Ce navigateur ne permet pas d'enregistrer : vos modifications seront perdues à la fermeture. Utilisez « Version à partager » pour les garder."; } } }
+
+/* ---------- Rendu : tableau de bord ---------- */
+function hbars(el, rows, max){
+  if(!rows.some(r=>r.v>0)){ el.innerHTML='<div class="empty">Aucune donnée pour le moment.</div>'; return; }
+  max = max || Math.max(...rows.map(r=>r.v),1);
+  el.innerHTML = rows.map(r=>`<div class="hbar" data-tip="${esc(r.tip||r.name+" : "+r.v)}" ${r.click?`data-click="${esc(r.click)}"`:""} style="${r.click?"cursor:pointer":""}">
+    <div class="name">${r.pre||""}${esc(r.name)}</div>
+    <div class="track"><div class="fill" style="width:${r.v/max*100}%"></div></div>
+    <div class="num">${r.v}</div></div>`).join("");
+}
+/* ---------- Doublons ---------- */
+// Doublon = même annonce SeLoger, ou même endroit + même loyer (±5 €) + mêmes caractéristiques
+const normUrl = u => { try{ const x=new URL(u); return (x.hostname.replace(/^www\./,"")+x.pathname.replace(/\/+$/,"")).toLowerCase(); }catch{ return ""; } };
+function distM(a,b){ const dy=(a.lat-b.lat)*111320, dx=(a.lng-b.lng)*111320*Math.cos(a.lat*Math.PI/180); return Math.hypot(dx,dy); }
+function sameLoc(a,b){
+  if(a.adresse && b.adresse && norm(a.adresse)===norm(b.adresse) && (+a.arr||0)===(+b.arr||0)) return true;
+  if(a.posManuelle && b.posManuelle && a.lat!=null && b.lat!=null) return distM(a,b)<120;
+  const qa=findPlace(a.quartier), qb=findPlace(b.quartier);
+  if(a.quartier || b.quartier) return !!(qa && qb ? qa.n===qb.n : norm(a.quartier)===norm(b.quartier));
+  return !!a.arr && +a.arr===+b.arr;
+}
+function sameCar(a,b){
+  if(!(+a.loyer>0 && +b.loyer>0) || Math.abs(a.loyer-b.loyer)>5) return false;
+  if((a.type||"")!==(b.type||"")) return false;
+  if((a.parking==="oui")!==(b.parking==="oui")) return false;
+  if((a.exterieur||"aucun")!==(b.exterieur||"aucun")) return false;
+  if(+a.surface>0 && +b.surface>0 && Math.abs(a.surface-b.surface)>1) return false;
+  return true;
+}
+function isDup(a,b){
+  if((a.pasDoublon||[]).includes(b.id) || (b.pasDoublon||[]).includes(a.id)) return false;
+  const ua=normUrl(a.urlSeloger), ub=normUrl(b.urlSeloger);
+  if(ua && ua===ub) return true;
+  return sameLoc(a,b) && sameCar(a,b);
+}
+function why(a,b){ const ua=normUrl(a.urlSeloger); return ua && ua===normUrl(b.urlSeloger) ? "même lien SeLoger" : "même endroit, même loyer et mêmes caractéristiques"; }
+let DUP={}; // id du doublon -> id de l'annonce d'origine (la plus ancienne)
+function computeDups(){
+  DUP={};
+  const arr=items.slice().sort((a,b)=>(a.cree||a.maj||"").localeCompare(b.cree||b.maj||"")||a.id.localeCompare(b.id));
+  for(let i=0;i<arr.length;i++){ for(let j=0;j<i;j++){ if(!DUP[arr[j].id] && isDup(arr[i],arr[j])){ DUP[arr[i].id]=arr[j].id; break; } } }
+}
+const actifs = () => items.filter(x=>!DUP[x.id]);
+const byId = id => items.find(x=>x.id===id);
+function renderDupNotice(){
+  const ids=Object.keys(DUP), el=$("#dupNotice");
+  if(!ids.length){ el.hidden=true; return; }
+  el.hidden=false;
+  el.innerHTML=`<span>⚠️ <b>${ids.length} doublon${ids.length>1?"s":""} détecté${ids.length>1?"s":""}</b> : ${ids.slice(0,3).map(id=>`« ${esc(byId(id)?.titre||"Annonce")} »`).join(", ")}${ids.length>3?"…":""}. ${ids.length>1?"Ils ne sont pas comptés":"Il n'est pas compté"} dans les indicateurs ni sur la carte.</span><button class="btn sm" id="bSeeDup">Voir les doublons</button>`;
+}
+function renderDash(){
+  const items=actifs();
+  const n=items.length;
+  const by = id => items.filter(x=>x.statut===id);
+  $("#kTotal").textContent=n;
+  $("#kTotalSub").textContent = (Object.keys(DUP).length?`${Object.keys(DUP).length} doublon(s) exclu(s) · `:"") + (n ? `${items.filter(x=>x.type==="T1").length} T1 · ${items.filter(x=>x.type==="T2").length} T2 · ${items.filter(x=>x.type==="T3").length} T3`+(by("pause").length?` · ${by("pause").length} en pause`:"") : "Ajoutez votre première annonce");
+  const now=Date.now();
+  const upc = by("visite_programmee").filter(x=>x.dateVisite).sort((a,b)=>new Date(a.dateVisite)-new Date(b.dateVisite));
+  const fut = upc.filter(x=>new Date(x.dateVisite).getTime()>=now-3*3600e3);
+  if(fut.length){ const x=fut[0]; $("#kNext").textContent=fmtShort(x.dateVisite); $("#kNextSub").textContent=new Date(x.dateVisite).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})+" · "+(x.titre||x.quartier||"Annonce"); }
+  else { $("#kNext").textContent="–"; $("#kNextSub").textContent = by("visite_programmee").length? "Date de visite à renseigner" : "Aucune visite programmée"; }
+  const w=by("visite_attente"); $("#kWait").textContent=w.length; $("#kWaitSub").textContent = w.length? "après visite" : "";
+  const todo = by("a_contacter").length + by("dossier_a_envoyer").length;
+  $("#kTodo").textContent=todo; $("#kTodoSub").textContent=`${by("a_contacter").length} à contacter · ${by("dossier_a_envoyer").length} dossier(s) à envoyer`;
+
+  hbars($("#chStatus"), STATUSES.map(s=>({name:s.short, v:by(s.id).length, pre:`<span class="dot" style="background:var(${s.c})"></span><i class="ico">${s.icon}</i> `, tip:`${s.label} : ${by(s.id).length}`, click:"st:"+s.id})));
+
+  const up=$("#upcoming");
+  const lst = upc.filter(x=>new Date(x.dateVisite).getTime()>=now-3*3600e3);
+  const noDate = by("visite_programmee").filter(x=>!x.dateVisite);
+  up.innerHTML = lst.length||noDate.length ? [...lst.slice(0,6).map(x=>`<div class="it" data-open="${esc(x.id)}"><div class="date">${esc(fmtShort(x.dateVisite))}<br><span style="font-weight:400;color:var(--muted)">${esc(new Date(x.dateVisite).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))}</span></div><div><div>${esc(x.titre||"Annonce")}</div><div class="t">${esc(locStr(x))}</div></div></div>`),
+    ...noDate.map(x=>`<div class="it" data-open="${esc(x.id)}"><div class="date" style="color:var(--muted)">Date ?</div><div><div>${esc(x.titre||"Annonce")}</div><div class="t">${esc(locStr(x))}</div></div></div>`)].join("") : '<div class="empty">Aucune visite programmée.</div>';
+
+  const pct = k => n? Math.round(k/n*100)+" %" : "–";
+  const T1=items.filter(x=>x.type==="T1").length, T2=items.filter(x=>x.type==="T2"||x.type==="T3").length, P=items.filter(x=>x.parking==="oui").length, B=items.filter(x=>x.exterieur==="balcon").length, Te=items.filter(x=>x.exterieur==="terrasse").length;
+  $("#feat").innerHTML = [["T1",T1],["T2 ou T3",T2],["Avec parking",P],["Balcon ou terrasse",B+Te,`${B} balcon · ${Te} terrasse`]].map(([l,v,s])=>`<div class="f"><div class="v">${v}</div><div class="l">${esc(l)} · ${pct(v)}${s?"<br>"+esc(s):""}</div></div>`).join("");
+
+  const rents = items.map(x=>+x.loyer).filter(v=>v>0);
+  const avg = a => a.length? a.reduce((s,v)=>s+v,0)/a.length : null;
+  const r1 = items.filter(x=>x.type==="T1"&&+x.loyer>0).map(x=>+x.loyer), r2=items.filter(x=>x.type==="T2"&&+x.loyer>0).map(x=>+x.loyer);
+  const m2 = items.filter(x=>+x.loyer>0&&+x.surface>0).map(x=>x.loyer/x.surface);
+  $("#rent").innerHTML = [["Loyer moyen",rents.length?fmtEur(avg(rents)):"–",rents.length?`min ${fmtEur(Math.min(...rents))} · max ${fmtEur(Math.max(...rents))}`:"aucun loyer saisi"],
+    ["Prix moyen au m²",m2.length?(avg(m2).toFixed(1).replace(".",",")+" €"):"–",m2.length?`sur ${m2.length} annonce(s)`:"loyer + surface requis"],
+    ["Moyenne T1",r1.length?fmtEur(avg(r1)):"–",`${r1.length} annonce(s)`],["Moyenne T2",r2.length?fmtEur(avg(r2)):"–",`${r2.length} annonce(s)`]]
+    .map(([l,v,s])=>`<div class="f"><div class="v">${v}</div><div class="l">${esc(l)}<br>${esc(s)}</div></div>`).join("");
+
+  const arrRows=[]; for(let a=1;a<=16;a++){ const k=items.filter(x=>+x.arr===a).length; if(k) arrRows.push({name:ARR_LBL(a)+" arrondissement",v:k,click:"arr:"+a}); }
+  const none=items.filter(x=>!x.arr).length; if(none) arrRows.push({name:"Non renseigné",v:none});
+  hbars($("#chArr"), arrRows);
+}
+const locStr = x => [x.quartier, x.arr?ARR_LBL(+x.arr)+" arr.":""].filter(Boolean).join(" · ") || "Localisation inconnue";
+
+/* ---------- Carte ---------- */
+let map=null, pinLayer=null, mini=null, miniPin=null; const hidden=new Set();
+// Lieux principaux : [nom, lat, lng, pictogramme, importance (1 = toujours affiché)]
+const POIS = [
+["Gare Saint-Charles",43.3027,5.3806,"🚆",1],["Vieux-Port",43.2945,5.3712,"⚓",1],["Notre-Dame de la Garde",43.2840,5.3712,"⛪",1],["Mucem",43.2966,5.3610,"🏛️",1],
+["Palais Longchamp",43.3045,5.3943,"🏛️",1],["Orange Vélodrome",43.2698,5.3959,"🏟️",1],["Parc Borély",43.2590,5.3820,"🌳",1],["Plages du Prado",43.2605,5.3735,"🏖️",1],
+["Hôpital de la Timone",43.2893,5.4022,"🏥",1],["Château d'If",43.2799,5.3253,"🏰",1],["Calanque de Sormiou",43.2105,5.4185,"🏞️",1],["Parc national des Calanques",43.2230,5.4700,"🏞️",1],
+["Cathédrale La Major",43.2994,5.3655,"⛪",2],["Hôpital de la Conception",43.2905,5.3932,"🏥",2],["Hôpital Nord",43.3785,5.3605,"🏥",2],["Cours Julien",43.2940,5.3838,"🎨",2],
+["Palais du Pharo",43.2925,5.3600,"🏛️",2],["Abbaye Saint-Victor",43.2905,5.3655,"⛪",2],["Îles du Frioul",43.2790,5.3080,"🏝️",2],
+["Vallon des Auffes",43.2856,5.3500,"⛵",2],["Plage des Catalans",43.2905,5.3557,"🏖️",2],["Parc Chanot",43.2715,5.3920,"🎪",2],["Les Terrasses du Port",43.3035,5.3640,"🛍️",2],
+["Tour CMA CGM",43.3130,5.3665,"🏢",2],["Centre Bourse",43.2985,5.3770,"🛍️",2],["Opéra",43.2938,5.3772,"🎭",2],["Campus de Luminy",43.2325,5.4400,"🎓",2],
+["Calanque de Morgiou",43.2125,5.4455,"🏞️",2],["Calanque de Sugiton",43.2135,5.4565,"🏞️",2],["Parc Pastré",43.2420,5.3730,"🌳",2],["Parc du 26e Centenaire",43.2862,5.3965,"🌳",2],
+["Centre commercial La Valentine",43.2985,5.4835,"🛍️",2],["Grand Littoral",43.3640,5.3480,"🛍️",2],["Port de l'Estaque",43.3615,5.3135,"⚓",2],["Port de la Pointe Rouge",43.2440,5.3680,"⚓",2],
+["Gare de la Blancarde",43.2975,5.4085,"🚆",2],
+];
+function baseLayers(m, big){
+  // Fond = mer ; communes voisines en gris ; arrondissements de Marseille tracés (limites approximatives)
+  L.geoJSON(COMMUNES,{filter:f=>f.properties.nom!=="Marseille",style:{color:cssv("--land-line"),weight:.7,fillColor:cssv("--land-2"),fillOpacity:1},interactive:false}).addTo(m);
+  const arrLayer = L.geoJSON(ARRS,{style:f=>({color:cssv("--arr-line"),weight:1.6,fillColor:f.properties.arr%2?cssv("--land"):cssv("--land-alt"),fillOpacity:1}),interactive:true,
+    onEachFeature:(f,l)=>{ l.on("mouseover",()=>l.setStyle({fillColor:cssv("--land-hi")})); l.on("mouseout",()=>arrLayer.resetStyle(l)); }}).addTo(m);
+  for(const f of ARRS.features){ L.tooltip({permanent:true,direction:"center",className:"arr-lbl"}).setLatLng(f.properties.lab).setContent(ARR_LBL(f.properties.arr)).addTo(m); }
+  const ql = L.layerGroup(QUARTIERS.map(q=>L.tooltip({permanent:true,direction:"center",className:"q-lbl",offset:[0,12]}).setLatLng([q[2],q[3]]).setContent(esc(q[0]))));
+  const pl = L.layerGroup(POIS.map(p=>L.marker([p[1],p[2]],{icon:L.divIcon({className:"",html:`<div class="poi r${p[4]}"><span>${p[3]}</span><b>${esc(p[0])}</b></div>`,iconSize:[22,22],iconAnchor:[11,11]}),keyboard:false,interactive:false,zIndexOffset:-1000}))).addTo(m);
+  const upd=()=>{ const z=m.getZoom(); if(z>=14.5) ql.addTo(m); else ql.remove(); const c=m.getContainer(); c.classList.toggle("z-lo",z<12.5); c.classList.toggle("z-mid",z>=12.5&&z<13.5); };
+  m.on("zoomend",upd); upd();
+}
+function pinIcon(s, big){ return L.divIcon({className:"",html:`<div class="pin" style="background:var(${s.c});${big?"":"width:24px;height:24px"}"><i>${s.icon}</i></div>`,iconSize:big?[28,28]:[24,24],iconAnchor:big?[14,30]:[12,26],popupAnchor:[0,-26]}); }
+function initMap(){
+  if(!window.L || map) return;
+  map = L.map("map",{zoomControl:true,attributionControl:false,minZoom:11,maxZoom:17,zoomSnap:.5,maxBounds:[[43.12,5.15],[43.45,5.65]]}).setView([43.29,5.40],12);
+  baseLayers(map,true);
+  pinLayer = L.layerGroup().addTo(map);
+  $("#mapLegend").innerHTML = STATUSES.map(s=>`<label><input type="checkbox" checked data-st="${s.id}"><span class="dot" style="background:var(${s.c})"></span>${s.icon} ${esc(s.short)} <span class="count" data-cnt="${s.id}"></span></label>`).join("");
+  $("#mapLegend").addEventListener("change",e=>{const c=e.target.closest("input");if(!c)return; c.checked?hidden.delete(c.dataset.st):hidden.add(c.dataset.st); renderPins();});
+}
+function renderPins(){
+  if(!map) return;
+  const items=actifs();
+  pinLayer.clearLayers();
+  const pts=[];
+  for(const x of items){
+    const s=ST[x.statut]||STATUSES[0];
+    const p=position(x); if(!p || hidden.has(s.id)) continue;
+    pts.push([p.lat,p.lng]);
+    const mk=L.marker([p.lat,p.lng],{icon:pinIcon(s,true),title:x.titre||"",zIndexOffset:1000});
+    const vis = x.statut==="visite_programmee"&&x.dateVisite ? `<div>📅 ${esc(fmtDate(x.dateVisite))}</div>`:"";
+    mk.bindPopup(`<div class="pop"><div class="t">${esc(x.titre||"Annonce")}</div><div class="s">${esc(locStr(x))}${x.loyer?" · "+esc(fmtEur(x.loyer)):""}</div><div>${s.icon} ${esc(s.label)}</div>${vis}<div class="s" style="margin-top:4px">${esc([x.type,x.parking==="oui"?"Parking":"",x.exterieur&&x.exterieur!=="aucun"?cap(x.exterieur):""].filter(Boolean).join(" · "))}</div><button class="btn sm" data-open="${esc(x.id)}">Ouvrir la fiche</button></div>`);
+    pinLayer.addLayer(mk);
+  }
+  for(const s of STATUSES){ const el=document.querySelector(`[data-cnt="${s.id}"]`); if(el) el.textContent="("+items.filter(x=>(x.statut||"a_contacter")===s.id).length+")"; }
+  if(pts.length && !renderPins._fitted){ renderPins._fitted=true; if(pts.length>1) map.fitBounds(pts,{padding:[40,40],maxZoom:14}); else map.setView(pts[0],14); }
+}
+const cap = s => s? s[0].toUpperCase()+s.slice(1) : "";
+
+/* ---------- Liste ---------- */
+let fArrFilter="", fStFilter="";
+function renderList(){
+  const q=norm($("#fQ").value), st=$("#fStatus").value, ty=$("#fType").value, ar=$("#fArr").value, so=$("#fSort").value;
+  let r = items.filter(x=>(!st||(st==="__dup"?!!DUP[x.id]:x.statut===st))&&(!ty||x.type===ty)&&(!ar||String(x.arr)===ar)&&(!q||norm([x.titre,x.quartier,x.adresse,x.agence,host(x.urlAgence),(x.commentaires||[]).map(c=>c.texte).join(" ")].join(" ")).includes(q)));
+  const sorters={maj:(a,b)=>(b.maj||"").localeCompare(a.maj||""),visite:(a,b)=>(a.dateVisite||"9").localeCompare(b.dateVisite||"9"),loyer:(a,b)=>(+a.loyer||1e9)-(+b.loyer||1e9),arr:(a,b)=>(+a.arr||99)-(+b.arr||99)};
+  r.sort(sorters[so]);
+  $("#count").textContent = `${r.length} annonce${r.length>1?"s":""}`+(r.length!==items.length?` sur ${items.length}`:"");
+  $("#list").innerHTML = r.length ? r.map(x=>{
+    const s=ST[x.statut]||STATUSES[0];
+    const chips=[x.type?`<span class="chip on">${esc(x.type)}</span>`:"", x.surface?`<span class="chip">${esc(String(x.surface).replace(".",","))} m²</span>`:"",
+      x.parking==="oui"?'<span class="chip on">🚗 Parking</span>':(x.parking==="non"?'<span class="chip">Sans parking</span>':""),
+      x.exterieur==="balcon"?'<span class="chip on">🌿 Balcon</span>':x.exterieur==="terrasse"?'<span class="chip on">☀️ Terrasse</span>':""].join("");
+    const su=safeUrl(x.urlSeloger), au=safeUrl(x.urlAgence);
+    const nC=(x.commentaires||[]).length;
+    const d=DUP[x.id]&&byId(DUP[x.id]);
+    return `<div class="item${d?" dup":""}" style="--sc:var(${s.c})" data-open="${esc(x.id)}">
+      ${d?`<div class="dupbox">⚠️ Doublon de « ${esc(d.titre||"Annonce")} » (${esc(why(x,d))})</div>`:""}
+      <div class="top"><div><div class="title">${esc(x.titre||"Annonce sans titre")}</div><div class="loc">📍 ${esc(locStr(x))}${x.adresse?" · "+esc(x.adresse):""}</div></div><div class="price">${esc(fmtEur(x.loyer))}</div></div>
+      <div class="chips">${chips||'<span class="chip">Caractéristiques à compléter</span>'}</div>
+      <div><span class="status"><span class="dot" style="background:var(${s.c})"></span>${s.icon} ${esc(s.label)}</span>${x.statut==="visite_programmee"?` <span class="status">${x.dateVisite?"📅 "+esc(fmtDate(x.dateVisite)):"📅 date à fixer"}</span>`:""}</div>
+      <div class="foot"><div class="links">${su?`<a href="${esc(su)}" target="_blank" rel="noopener">SeLoger ↗</a>`:""}${au?`<a href="${esc(au)}" target="_blank" rel="noopener">${esc(x.agence||host(au)||"Agence")} ↗</a>`:(x.agence?`<span>${esc(x.agence)}</span>`:"")}</div><span>💬 ${nC} · ${esc(x.maj?"modifié le "+fmtShort(x.maj):"")}</span></div>
+    </div>`;}).join("") : `<div class="empty">${items.length?"Aucune annonce ne correspond aux filtres.":"Aucune annonce pour l'instant. Cliquez sur « Ajouter une annonce »."}</div>`;
+}
+function renderAll(){ computeDups(); renderDupNotice(); renderDash(); renderPins(); renderList(); renderSug(); }
+
+/* ---------- Suggestions du jour (fichier suggestions.json publié chaque jour sur le site) ---------- */
+let SUG=null, sugShown=10;
+const SUG_HIDE_KEY="suggestions-masquees";
+const sugHidden=()=>{ try{ return new Set(JSON.parse(localStorage.getItem(SUG_HIDE_KEY)||"[]")); }catch{ return new Set(); } };
+function sugSetHidden(set){ try{ localStorage.setItem(SUG_HIDE_KEY,JSON.stringify([...set].slice(-500))); }catch{} }
+function sugOnSite(s){
+  const urls=[s.url_bienici,s.url_figaro].filter(Boolean).map(u=>u.split("?")[0]);
+  const nums=new Set(urls.join(" ").match(/\d{6,}/g)||[]);
+  return items.find(x=>{
+    const hay=[x.urlSeloger,x.urlAgence,x.titre].join(" ");
+    if(urls.some(u=>hay.includes(u))) return true;
+    if((hay.match(/\d{6,}/g)||[]).some(n=>nums.has(n))) return true;
+    const t={T1:1,T2:2,T3:3}[x.type];
+    return +x.arr===s.arr && x.loyer && Math.abs(x.loyer-s.loyer)<=15 && (!t||t===s.pieces) && (!(x.surface&&s.surface)||Math.abs(x.surface-s.surface)<=2);
+  });
+}
+async function loadSug(){
+  if(!(SNAP&&SNAP.site)) return;
+  try{ const r=await fetch("suggestions.json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) return; SUG=await r.json(); }catch{ return; }
+  $("#navSug").hidden=false; renderSug();
+}
+function renderSug(){
+  if(!SUG) return;
+  const g=new Date(SUG.genere), old=(Date.now()-g)/36e5>30;
+  $("#sugInfo").innerHTML = `Mis à jour le ${esc(g.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}))} à ${esc(g.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))} · ${(+SUG.lues?.bienici||0)+(+SUG.lues?.figaro||0)} annonces analysées · ${+SUG.parfaits||0} parfaites` + (old?" · ⚠️ pas de mise à jour récente":"") + " · nouvelle liste chaque jour avant 17 h";
+  const hid=sugHidden(), onlyP=$("#sugFilter").value==="parfait";
+  const all=(SUG.annonces||[]).filter(s=>s&&s.arr&&s.loyer);
+  const list=all.filter(s=>!hid.has(s.id) && !sugOnSite(s) && (!onlyP||!(s.assouplissements||[]).length));
+  $("#sugUnhide").hidden=!all.some(s=>hid.has(s.id));
+  const shown=list.slice(0,sugShown);
+  $("#sugMore").hidden=list.length<=sugShown; $("#sugMore").textContent=`Afficher ${Math.min(10,list.length-sugShown)} de plus (${list.length-sugShown} restantes)`;
+  const today=g.toISOString().slice(0,10);
+  $("#sugList").innerHTML = shown.length ? shown.map((s,i)=>{
+    const ass=s.assouplissements||[], parfait=!ass.length;
+    const arr=ARR_LBL(+s.arr), safe=u=>safeUrl(u||"");
+    const ext=s.exterieur?`<span class="chip on">${s.exterieur==="terrasse"?"☀️ Terrasse":"🌿 "+esc(cap(s.exterieur))}</span>`:'<span class="chip">Sans extérieur</span>';
+    const park=s.parking?(s.parking_option?'<span class="chip">🚗 Parking en option (payant)</span>':'<span class="chip on">🚗 Parking</span>'):'<span class="chip">Sans parking</span>';
+    const nouveau=!s.deja_propose||s.deja_propose===today;
+    const links=[safe(s.url_bienici)?`<a href="${esc(safe(s.url_bienici))}" target="_blank" rel="noopener">Bien'ici ↗</a>`:"", safe(s.url_figaro)?`<a href="${esc(safe(s.url_figaro))}" target="_blank" rel="noopener">Le Figaro ↗</a>`:"",
+      safe(s.url_agence)?`<a href="${esc(safe(s.url_agence))}" target="_blank" rel="noopener">${esc(s.agence||"Agence")} ↗</a>`:(s.agence?`<span>${esc(s.agence)}</span>`:"")].join("");
+    return `<div class="item sug" style="--sc:var(${parfait?"--s4":"--border"})">
+      <div class="top"><div><span class="tier ${parfait?"p":"a"}">${parfait?"⭐ Parfait":"≈ "+esc(ass.join(" + "))}</span> ${nouveau?'<span class="chip on">🆕 nouveau</span>':`<span class="chip">proposé depuis le ${esc(fmtShort(s.deja_propose))}</span>`}
+        <div class="title" style="margin-top:6px">${i+1}. T${+s.pieces} · ${esc(s.surface?String(s.surface).replace(".",",")+" m²":"surface ?")}</div>
+        <div class="loc">📍 ${esc(s.quartier||"Quartier non précisé")} · ${esc(arr)} arr.</div></div><div class="price">${esc(fmtEur(s.loyer))}</div></div>
+      <div class="chips">${ext}${park}</div>
+      <div class="foot"><div class="links">${links}</div>${s.reference?`<span>réf. ${esc(s.reference)}</span>`:""}</div>
+      <div class="acts"><button class="btn sm primary" data-sugadd="${esc(s.id)}">➕ Ajouter à mes logements</button><button class="btn sm" data-sughide="${esc(s.id)}">Masquer</button></div>
+    </div>`; }).join("") : `<div class="empty">${all.length?"Toutes les suggestions du jour sont déjà dans vos logements ou masquées.":"Pas de suggestion aujourd'hui."}</div>`;
+}
+function sugToItem(s){
+  const p=findPlace(s.quartier);
+  const d=new Date(SUG.genere).toLocaleDateString("fr-FR");
+  return {id:uid(), cree:new Date().toISOString(), statut:"a_contacter",
+    titre:`T${s.pieces} · ${p?p.n:(s.quartier||"Marseille "+ARR_LBL(+s.arr))}`,
+    urlSeloger:s.url_bienici||s.url_figaro||"", urlAgence:(s.url_agence&&!/google\.com\/search/.test(s.url_agence))?s.url_agence:"",
+    agence:s.agence||"", arr:+s.arr, quartier:p?p.n:(s.quartier||""), adresse:"",
+    type:["T1","T2","T3"][s.pieces-1]||"Autre", parking:s.parking&&!s.parking_option?"oui":"non",
+    exterieur:s.exterieur?(s.exterieur==="terrasse"?"terrasse":"balcon"):"aucun", loyer:+s.loyer, surface:s.surface?+s.surface:null,
+    commentaires:[{id:uid(),date:new Date().toISOString(),texte:`Ajouté depuis les suggestions du ${d}`+(s.reference?` (réf. agence ${s.reference})`:"")+(s.url_bienici&&s.url_figaro?`\nAussi sur Le Figaro : ${s.url_figaro}`:"")+(s.parking_option?"\nParking en option, payant en plus.":"")}]};
+}
+document.addEventListener("click",async e=>{
+  const a=e.target.closest("[data-sugadd]"), h=e.target.closest("[data-sughide]");
+  if(a&&SUG){ const s=SUG.annonces.find(x=>x.id===a.dataset.sugadd); if(!s) return; a.disabled=true;
+    try{ await saveDoc(sugToItem(s)); renderSug(); toast("Ajouté à vos logements (état « À contacter »).",4000); }catch{ a.disabled=false; toast("Échec de l'ajout, réessayez."); } }
+  if(h){ const set=sugHidden(); set.add(h.dataset.sughide); sugSetHidden(set); renderSug(); }
+});
+$("#sugMore").onclick=()=>{ sugShown+=10; renderSug(); };
+$("#sugFilter").onchange=()=>{ sugShown=10; renderSug(); };
+$("#sugUnhide").onclick=()=>{ sugSetHidden(new Set()); renderSug(); };
+
+/* ---------- Fiche (modale) ---------- */
+let cur=null, isNew=false;
+const F = $("#form");
+function setSeg(name,val){ F.querySelectorAll(`[data-seg="${name}"] button`).forEach(b=>b.classList.toggle("on",b.dataset.val===val)); }
+function getSeg(name){ const b=F.querySelector(`[data-seg="${name}"] button.on`); return b?b.dataset.val:""; }
+function setStatus(id){ cur.statut=id; $("#stBtns").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.st===id)); $("#visitFld").style.display = id==="visite_programmee"?"":"none"; }
+function openForm(id){
+  const ex = id && items.find(x=>x.id===id);
+  isNew=!ex;
+  cur = ex ? JSON.parse(JSON.stringify(ex)) : {id:uid(),statut:"a_contacter",commentaires:[],cree:new Date().toISOString()};
+  $("#mTitle").textContent = isNew? "Nouvelle annonce" : (cur.titre||"Fiche annonce");
+  for(const k of ["urlSeloger","urlAgence","texte","titre","loyer","surface","agence","quartier","adresse"]) F.elements[k].value = cur[k]??"";
+  F.elements.arr.value = cur.arr??"";
+  F.elements.dateVisite.value = cur.dateVisite? cur.dateVisite.slice(0,16) : "";
+  setSeg("type",cur.type||""); setSeg("parking",cur.parking||""); setSeg("exterieur",cur.exterieur||"");
+  setStatus(cur.statut||"a_contacter");
+  $("#detectOut").classList.remove("on");
+  $("#bDel").hidden=isNew; $("#delConfirm").classList.remove("on");
+  renderComments(); renderModalDup();
+  $("#ov").classList.add("on"); document.body.style.overflow="hidden";
+  setTimeout(()=>{ initMini(); updateMini(true); },30);
+}
+function renderModalDup(){
+  const el=$("#mDup"), oid=!isNew&&DUP[cur.id], o=oid&&byId(oid);
+  if(!o){ el.hidden=true; return; }
+  el.hidden=false;
+  el.innerHTML=`<div>⚠️ <b>Doublon</b> de « ${esc(o.titre||"Annonce")} » (${esc(why(cur,o))}). Il n'est pas compté dans les indicateurs ni sur la carte.</div><div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button type="button" class="btn sm" data-open="${esc(o.id)}">Ouvrir l'annonce d'origine</button><button type="button" class="btn sm" id="bNotDup" data-other="${esc(o.id)}">Ce n'est pas un doublon</button></div>`;
+}
+function closeForm(){ $("#ov").classList.remove("on"); document.body.style.overflow=""; cur=null; }
+function readForm(){
+  const o=cur;
+  for(const k of ["urlSeloger","urlAgence","texte","titre","agence","quartier","adresse"]) o[k]=F.elements[k].value.trim();
+  o.loyer = F.elements.loyer.value? +F.elements.loyer.value : null;
+  o.surface = F.elements.surface.value? +F.elements.surface.value : null;
+  o.arr = F.elements.arr.value? +F.elements.arr.value : null;
+  o.type=getSeg("type"); o.parking=getSeg("parking"); o.exterieur=getSeg("exterieur");
+  o.dateVisite = o.statut==="visite_programmee" && F.elements.dateVisite.value ? new Date(F.elements.dateVisite.value).toISOString() : (o.statut==="visite_programmee"?null:o.dateVisite||null);
+  if(o.statut!=="visite_programmee" && o.statut!=="visite_attente") o.dateVisite = o.dateVisite||null;
+  if(!o.titre){ o.titre=[o.type, o.quartier||(o.arr?"Marseille "+ARR_LBL(o.arr):"")].filter(Boolean).join(" · ") || (host(o.urlSeloger||o.urlAgence)||"Annonce"); }
+  return o;
+}
+function renderComments(){
+  const c=(cur.commentaires||[]).slice().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  $("#cmts").innerHTML = c.length? c.map(x=>`<div class="cmt"><div class="meta"><span>${esc(fmtDate(x.date))}</span><button type="button" data-delc="${esc(x.id)}">Supprimer</button></div><div class="txt">${esc(x.texte)}</div></div>`).join("") : '<div class="empty" style="padding:0">Aucun commentaire.</div>';
+}
+function applyDetect(d, from){
+  const {res,found}=d; const applied=[];
+  if(res.arr && !F.elements.arr.value){ F.elements.arr.value=res.arr; applied.push("arrondissement"); }
+  if(res.quartier && !F.elements.quartier.value){ F.elements.quartier.value=res.quartier; applied.push("quartier"); }
+  if(res.adresse && !F.elements.adresse.value){ F.elements.adresse.value=res.adresse; applied.push("adresse"); }
+  if(res.type && !getSeg("type")){ setSeg("type",res.type); applied.push("type"); }
+  if(res.parking && !getSeg("parking")){ setSeg("parking",res.parking); applied.push("parking"); }
+  if(res.exterieur && !getSeg("exterieur")){ setSeg("exterieur",res.exterieur); applied.push("extérieur"); }
+  if(res.loyer && !F.elements.loyer.value){ F.elements.loyer.value=res.loyer; applied.push("loyer"); }
+  if(res.surface && !F.elements.surface.value){ F.elements.surface.value=res.surface; applied.push("surface"); }
+  if(res.agence && !F.elements.agence.value){ F.elements.agence.value=res.agence; applied.push("agence"); }
+  if(res.titre && !F.elements.titre.value){ F.elements.titre.value=res.titre; applied.push("titre"); }
+  const out=$("#detectOut"); out.classList.add("on");
+  out.innerHTML = found.length ? `<b>${esc(from)} :</b> ${esc(found.join(", "))}.` + (applied.length?` Champs remplis : ${esc(applied.join(", "))}.`:" (les champs déjà remplis n'ont pas été modifiés)") + (res.arr||res.quartier?"":" <br>Localisation non trouvée : choisissez l'arrondissement ou le quartier ci-dessous, ou cliquez sur la carte.")
+    : `${esc(from)} : rien de reconnu. ${from.includes("Claude")?"":"Collez le texte de l'annonce puis réessayez"+(SAMPLE?", ou utilisez « Analyser avec Claude »":"")+", ou remplissez à la main."}`;
+  updateMini(true);
+}
+/* mini-carte de la fiche */
+function initMini(){
+  if(!window.L) { $("#miniMap").style.display="none"; $("#posHint").textContent="Carte indisponible."; return; }
+  if(mini){ mini.invalidateSize(); return; }
+  mini = L.map("miniMap",{attributionControl:false,minZoom:11,maxZoom:17,zoomSnap:.5,maxBounds:[[43.12,5.15],[43.45,5.65]]}).setView([43.29,5.40],12);
+  baseLayers(mini,false);
+  mini.on("click",e=>{ if(!cur) return; cur.lat=+e.latlng.lat.toFixed(5); cur.lng=+e.latlng.lng.toFixed(5); cur.posManuelle=true; updateMini(false); });
+}
+function updateMini(recenter){
+  if(!mini||!cur) return;
+  const tmp={...cur, quartier:F.elements.quartier.value, arr:F.elements.arr.value?+F.elements.arr.value:null};
+  const p=position(tmp);
+  if(miniPin){ miniPin.remove(); miniPin=null; }
+  const s=ST[cur.statut]||STATUSES[0];
+  if(p){ miniPin=L.marker([p.lat,p.lng],{icon:pinIcon(s,true)}).addTo(mini); if(recenter) mini.setView([p.lat,p.lng], p.precis==="arrondissement"?13.5:14.5); }
+  else if(recenter) mini.setView([43.29,5.40],12);
+  $("#posHint").textContent = !p ? "Pas encore de position : choisissez un quartier/arrondissement ou cliquez sur la carte." : p.precis==="manuelle" ? "Position placée à la main (cliquez ailleurs pour la déplacer)." : `Position approximative (${p.precis}). Cliquez sur la carte pour la préciser.`;
+  $("#bResetPos").hidden = !cur.posManuelle;
+}
+
+/* ---------- Claude ---------- */
+async function analyseClaude(){
+  const urls=[F.elements.urlSeloger.value.trim(),F.elements.urlAgence.value.trim()].filter(Boolean);
+  const texte=F.elements.texte.value.trim();
+  if(!urls.length && !texte){ toast("Renseignez un lien ou collez le texte de l'annonce."); return; }
+  const b=$("#bClaude"); b.disabled=true; b.textContent="✨ Analyse en cours…";
+  const prompt = `Tu aides à remplir la fiche d'un logement à louer à Marseille. Tu ne peux pas ouvrir les liens : déduis ce que tu peux du texte des URL (chemin, mots-clés, code postal) et du texte d'annonce fourni. N'invente rien : mets null si l'information n'apparaît pas.
+Quartiers connus (nom|arrondissement) : ${QUARTIERS.map(q=>q[0]+"|"+q[1]).join("; ")}.
+Liens : ${urls.join(" , ")||"(aucun)"}
+Texte de l'annonce : """${texte.slice(0,6000)||"(aucun)"}"""
+Réponds UNIQUEMENT par un objet JSON : {"titre":string|null (court, ex. "T2 avec balcon - Castellane"),"type":"T1"|"T2"|"T3"|"Autre"|null,"parking":"oui"|"non"|null,"exterieur":"balcon"|"terrasse"|"aucun"|null,"loyer":number|null (charges comprises, €/mois),"surface":number|null,"arrondissement":1-16|null,"quartier":string|null (un nom de la liste si possible),"adresse":string|null (rue seulement si elle est donnée),"agence":string|null}`;
+  try{
+    const r = await SAMPLE.json(prompt,{modelTier:"quick"});
+    const res={}; const found=[];
+    if(r && typeof r==="object"){
+      if(["T1","T2","T3","Autre"].includes(r.type)){res.type=r.type;found.push(r.type);}
+      if(["oui","non"].includes(r.parking)){res.parking=r.parking;found.push("parking : "+r.parking);}
+      if(["balcon","terrasse","aucun"].includes(r.exterieur)){res.exterieur=r.exterieur;found.push("extérieur : "+r.exterieur);}
+      if(+r.loyer>0){res.loyer=Math.round(+r.loyer);found.push("loyer "+res.loyer+" €");}
+      if(+r.surface>0){res.surface=+r.surface;found.push(res.surface+" m²");}
+      if(+r.arrondissement>=1&&+r.arrondissement<=16){res.arr=+r.arrondissement;found.push("arrondissement "+ARR_LBL(res.arr));}
+      if(typeof r.quartier==="string"&&r.quartier.trim()){const p=findPlace(r.quartier); res.quartier=p?p.n:r.quartier.trim().slice(0,60); if(p&&!res.arr) res.arr=p.a; found.push("quartier "+res.quartier);}
+      if(typeof r.adresse==="string"&&r.adresse.trim()){res.adresse=r.adresse.trim().slice(0,120);found.push("adresse");}
+      if(typeof r.agence==="string"&&r.agence.trim()){res.agence=r.agence.trim().slice(0,80);found.push("agence "+res.agence);}
+      if(typeof r.titre==="string"&&r.titre.trim()){res.titre=r.titre.trim().slice(0,90);}
+    }
+    applyDetect({res,found},"Analyse Claude");
+  }catch(e){
+    if(e&&e.code==="not_granted"){ b.hidden=true; }
+    toast(e&&e.code==="rate_limited"?"Trop de demandes, réessayez dans un moment.":"L'analyse n'a pas abouti.");
+  }finally{ b.disabled=false; b.textContent="✨ Analyser avec Claude"; }
+}
+
+/* ---------- Événements ---------- */
+document.addEventListener("click",e=>{
+  const o=e.target.closest("[data-open]"); if(o && !e.target.closest("a")){ openForm(o.dataset.open); return; }
+  const c=e.target.closest("[data-click]");
+  if(c){ const [k,v]=c.dataset.click.split(":"); $("#fStatus").value=k==="st"?v:""; $("#fArr").value=k==="arr"?v:""; location.hash="annonces"; route(); renderList(); }
+});
+document.addEventListener("mousemove",e=>{ const t=e.target.closest&&e.target.closest("[data-tip]"); const tip=$("#tip"); if(t){ tip.textContent=t.dataset.tip; tip.style.display="block"; tip.style.left=(e.clientX+12)+"px"; tip.style.top=(e.clientY+12)+"px"; } else tip.style.display="none"; });
+$("#btnAdd").onclick=()=>openForm(null);
+$("#mClose").onclick=$("#bCancel").onclick=closeForm;
+$("#ov").addEventListener("mousedown",e=>{ if(e.target.id==="ov") closeForm(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && cur) closeForm(); });
+F.querySelectorAll(".seg").forEach(sg=>sg.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b)return; const on=b.classList.contains("on"); sg.querySelectorAll("button").forEach(x=>x.classList.remove("on")); if(!on) b.classList.add("on"); }));
+$("#stBtns").innerHTML = STATUSES.map(s=>`<button type="button" data-st="${s.id}" style="--sc:var(${s.c})"><span class="dot" style="background:var(${s.c})"></span>${s.icon} ${esc(s.label)}</button>`).join("");
+$("#stBtns").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b){ setStatus(b.dataset.st); updateMini(false); } });
+$("#bDetect").onclick=()=>{ applyDetect(detect([F.elements.urlSeloger.value,F.elements.urlAgence.value],F.elements.texte.value),"Détecté"); };
+$("#bClaude").onclick=analyseClaude;
+F.elements.quartier.addEventListener("change",()=>{ const p=findPlace(F.elements.quartier.value); if(p){ F.elements.quartier.value=p.n; if(!F.elements.arr.value || +F.elements.arr.value!==p.a) F.elements.arr.value=p.a; } updateMini(true); });
+F.elements.arr.addEventListener("change",()=>updateMini(true));
+$("#bResetPos").onclick=()=>{ cur.posManuelle=false; delete cur.lat; delete cur.lng; updateMini(true); };
+$("#bAddC").onclick=async()=>{
+  const t=$("#cNew").value.trim(); if(!t) return;
+  cur.commentaires=(cur.commentaires||[]); cur.commentaires.push({id:uid(),texte:t.slice(0,4000),date:new Date().toISOString()});
+  $("#cNew").value=""; renderComments();
+  if(!isNew){ const ex=items.find(x=>x.id===cur.id); if(ex){ const o={...JSON.parse(JSON.stringify(ex)),commentaires:cur.commentaires}; try{ await saveDoc(o); toast("Commentaire enregistré"); }catch(e){ toast("Échec de l'enregistrement du commentaire"); } } }
+};
+$("#cmts").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-delc]"); if(!b) return;
+  cur.commentaires=cur.commentaires.filter(c=>c.id!==b.dataset.delc); renderComments();
+  if(!isNew){ const ex=items.find(x=>x.id===cur.id); if(ex){ try{ await saveDoc({...JSON.parse(JSON.stringify(ex)),commentaires:cur.commentaires}); }catch{ toast("Échec de la suppression"); } } }
+});
+$("#bDel").onclick=()=>{ $("#delConfirm").classList.add("on"); $("#bDel").hidden=true; };
+$("#bDelNo").onclick=()=>{ $("#delConfirm").classList.remove("on"); $("#bDel").hidden=false; };
+document.addEventListener("click",async e=>{
+  if(e.target.closest("#bSeeDup")){ $("#fStatus").value="__dup"; $("#fArr").value=""; location.hash="annonces"; route(); renderList(); return; }
+  const nd=e.target.closest("#bNotDup");
+  if(nd && cur){
+    const ex=byId(cur.id); if(!ex) return;
+    cur.pasDoublon=[...(cur.pasDoublon||[]),nd.dataset.other];
+    try{ await saveDoc({...JSON.parse(JSON.stringify(ex)),pasDoublon:cur.pasDoublon}); $("#mDup").hidden=true; toast("C'est noté : ce n'est pas un doublon."); }catch{ toast("Échec de l'enregistrement"); }
+  }
+});
+$("#bDelYes").onclick=async()=>{ const id=cur.id; closeForm(); try{ await deleteDoc(id); toast("Annonce supprimée"); }catch{ toast("Échec de la suppression"); } };
+F.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const pending=$("#cNew").value.trim();
+  if(pending){ cur.commentaires=(cur.commentaires||[]); cur.commentaires.push({id:uid(),texte:pending.slice(0,4000),date:new Date().toISOString()}); $("#cNew").value=""; }
+  const o=readForm();
+  if(!o.urlSeloger && !o.urlAgence && !F.elements.titre.value.trim() && !o.quartier && !o.arr){ toast("Renseignez au moins un lien, un titre ou une localisation."); return; }
+  if(o.statut==="visite_programmee" && !o.dateVisite) toast("Pensez à ajouter la date de visite.");
+  const b=$("#bSave"); b.disabled=true;
+  const twin = items.find(x=>x.id!==o.id && isDup(o,x));
+  try{
+    await saveDoc(JSON.parse(JSON.stringify(o))); closeForm();
+    if(twin) toast(`⚠️ Doublon détecté : « ${o.titre} » ressemble à « ${twin.titre||"Annonce"} » (${why(o,twin)}). Marqué comme doublon.`, 7000);
+    else toast(isNew?"Annonce ajoutée":"Modifications enregistrées");
+  }
+  catch(err){ toast(err&&err.code==="quota_exceeded"?"Espace de stockage plein.":err&&err.code==="invalid_argument"?"Vous n'avez pas le droit de modifier : demandez à la personne qui gère cette page de vous ajouter comme Contributeur.":"Échec de l'enregistrement, réessayez.",6000); }
+  finally{ b.disabled=false; }
+});
+["#fQ","#fStatus","#fType","#fArr","#fSort"].forEach(s=>$(s).addEventListener("input",renderList));
+
+/* ---------- Initialisation ---------- */
+$("#fStatus").innerHTML += STATUSES.map(s=>`<option value="${s.id}">${s.icon} ${esc(s.label)}</option>`).join("");
+for(let a=1;a<=16;a++){ $("#fArr").innerHTML+=`<option value="${a}">${ARR_LBL(a)} arrondissement</option>`; F.elements.arr.innerHTML+=`<option value="${a}">${ARR_LBL(a)} arrondissement (130${String(a).padStart(2,"0")})</option>`; }
+$("#dlQ").innerHTML = PLACES.filter(p=>!p.alias||!QUARTIERS.some(q=>norm(q[0])===p.k)).map(p=>`<option value="${esc(p.n)}">${ARR_LBL(p.a)}</option>`).join("");
+function route(){ const h=(location.hash||"").slice(1); const v=["annonces","suggestions"].includes(h)?h:"tableau-de-bord"; document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v)); document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v)); if(v==="tableau-de-bord"&&map) setTimeout(()=>map.invalidateSize(),20); }
+window.addEventListener("hashchange",route); route();
+initMap(); renderAll();
+
+function startLocal(msg){
+  localMode=true; $("#btnImport").hidden=false; if(!window.claude) $("#btnExport").hidden=false;
+  try{ items=JSON.parse(localStorage.getItem("logements-local")||"[]"); }catch{ items=[]; }
+  $("#banner").textContent=msg; renderAll();
+}
+/* ---------- Version autonome à partager (lecture seule) ---------- */
+const SNAP = window.__SNAPSHOT__;
+function buildExport(){
+  const doc = new DOMParser().parseFromString("<!DOCTYPE html>"+PAGE_SRC,"text/html");
+  // ne garder que Leaflet et le script de l'application
+  doc.querySelectorAll("script").forEach(sc=>{ if(sc.id!=="app" && !(sc.src||"").includes("leaflet")) sc.remove(); });
+  const data = JSON.stringify({id:uid(), date:new Date().toISOString(), items:items.map(x=>{ const {texte,...r}=x; return r; })}).replace(/</g,"\\u003c");
+  const snap = doc.createElement("script"); snap.textContent = "window.__SNAPSHOT__="+data+";";
+  doc.getElementById("app").before(snap);
+  const b = doc.getElementById("banner"); if(b) b.textContent="";
+  return "<!DOCTYPE html>\n"+doc.documentElement.outerHTML;
+}
+function startSnapshot(){
+  // Copie autonome : fonctionne sans Claude, les modifications sont gardées dans ce navigateur
+  if(SNAP.supabase){ startSupabase(); return; }
+  localMode=true; LS_KEY="logements-copie-"+(SNAP.id||SNAP.date);
+  let saved=null; try{ saved=JSON.parse(localStorage.getItem(LS_KEY)||"null"); }catch{}
+  items=(Array.isArray(saved)?saved:(SNAP.items||[])).filter(x=>x&&x.id);
+  $("#btnExport").hidden=false; $("#btnImport").hidden=false;
+  if(SNAP.site){ $("#banner").textContent = items.length ? "Vos annonces sont enregistrées dans ce navigateur. Pour les transmettre, utilisez « Version à partager »." : "Bienvenue ! Ajoutez une annonce, ou chargez un fichier « Version à partager » avec « Importer un fichier ». Vos annonces restent enregistrées dans ce navigateur."; renderAll(); return; }
+  const d=new Date(SNAP.date);
+  $("#banner").textContent = `📤 Copie du ${d.toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})}. Vos modifications sont enregistrées dans ce navigateur ; pour les transmettre, cliquez sur « Version à partager » et envoyez le fichier.`;
+  renderAll();
+}
+/* ---------- Version en ligne partagée (Supabase) ---------- */
+async function startSupabase(){
+  localMode=true; // pas de db Claude
+  $("#btnAdd").hidden=true;
+  if(!window.supabase){ $("#banner").textContent="Impossible de charger le service de sauvegarde. Vérifiez votre connexion puis rechargez la page."; return; }
+  SUPA = window.supabase.createClient(SNAP.supabase.url, SNAP.supabase.key, {auth:{persistSession:true}});
+  const {data:{session}} = await SUPA.auth.getSession();
+  if(session) return afterLogin(session);
+  $("#banner").textContent=""; $("#login").hidden=false; $("#lgEmail").focus();
+}
+$("#login").addEventListener("submit",async e=>{
+  e.preventDefault(); const b=$("#lgBtn"); b.disabled=true; $("#lgErr").textContent="";
+  const {data,error}=await SUPA.auth.signInWithPassword({email:$("#lgEmail").value.trim(),password:$("#lgPwd").value});
+  b.disabled=false;
+  if(error){ $("#lgErr").textContent = /invalid/i.test(error.message)?"E-mail ou mot de passe incorrect.":"Connexion impossible : "+error.message; return; }
+  $("#login").hidden=true; afterLogin(data.session);
+});
+async function loadAll(){
+  const {data,error}=await SUPA.from("logements").select("id,data,maj");
+  if(error){ $("#banner").textContent="Impossible de charger les annonces : "+error.message; return; }
+  items=data.map(r=>({...(r.data||{}),id:r.id,maj:r.maj||(r.data||{}).maj}));
+  $("#banner").textContent=""; renderAll();
+}
+let reloadT=null; const scheduleReload=()=>{ clearTimeout(reloadT); reloadT=setTimeout(loadAll,400); };
+async function afterLogin(session){
+  $("#btnAdd").hidden=false; $("#btnExport").hidden=false; $("#btnImport").hidden=false; $("#btnLogout").hidden=false;
+  $("#btnLogout").title="Connecté : "+(session.user&&session.user.email||"");
+  $("#banner").textContent="Chargement des annonces…";
+  await loadAll();
+  loadSug();
+  // mises à jour en direct (modifications de l'autre personne) + rafraîchissement de secours
+  SUPA.channel("logements").on("postgres_changes",{event:"*",schema:"public",table:"logements"},scheduleReload).subscribe();
+  setInterval(()=>{ if(!document.hidden && !cur) loadAll(); },30000);
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden) loadAll(); });
+}
+$("#btnLogout").onclick=async()=>{ await SUPA.auth.signOut(); location.reload(); };
+/* ---------- Import d'un fichier « Version à partager » ---------- */
+function parseImport(text){
+  text=text.trim();
+  if(text.startsWith("{")||text.startsWith("[")){ const j=JSON.parse(text); return Array.isArray(j)?j:(j.items||[]); }
+  const doc=new DOMParser().parseFromString(text,"text/html");
+  for(const sc of doc.querySelectorAll("script")){ const t=sc.textContent.trim(); if(t.startsWith("window.__SNAPSHOT__=")){ return (JSON.parse(t.slice(20).replace(/;\s*$/,"")).items)||[]; } }
+  throw new Error("format");
+}
+const CLEAN = x => { const o={}; for(const k of ["id","titre","urlSeloger","urlAgence","agence","quartier","adresse","arr","type","parking","exterieur","loyer","surface","statut","dateVisite","lat","lng","posManuelle","cree","maj","pasDoublon"]) if(x[k]!==undefined) o[k]=x[k];
+  o.commentaires=Array.isArray(x.commentaires)?x.commentaires.filter(c=>c&&c.texte).map(c=>({id:String(c.id||uid()),texte:String(c.texte).slice(0,4000),date:c.date||new Date().toISOString()})):[];
+  if(!ST[o.statut]) o.statut="a_contacter"; o.id=String(o.id).replace(/[^A-Za-z0-9_\-.~:@+]/g,"").slice(0,60)||uid(); return o; };
+$("#btnImport").onclick=()=>$("#fileImport").click();
+$("#fileImport").onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  let list; try{ list=parseImport(await f.text()).filter(x=>x&&x.id).map(CLEAN); }catch{ toast("Ce fichier n'est pas une « Version à partager » valide.",5000); return; }
+  let added=0, updated=0;
+  for(const x of list){
+    const ex=items.find(y=>y.id===x.id);
+    if(ex && (ex.maj||"")>=(x.maj||"")) continue;
+    // fusion des commentaires des deux versions
+    if(ex){ const ids=new Set((x.commentaires||[]).map(c=>c.id)); x.commentaires=[...x.commentaires,...(ex.commentaires||[]).filter(c=>!ids.has(c.id))]; updated++; } else added++;
+    if(localMode && !SUPA){ const i=items.findIndex(y=>y.id===x.id); if(i>=0) items[i]=x; else items.push(x); }
+    else { try{ await rawWrite(x); }catch{ toast("Import interrompu : erreur d'enregistrement.",5000); return; } }
+  }
+  if(localMode && !SUPA){ persistLocal(); renderAll(); }
+  toast(added||updated ? `Import terminé : ${added} annonce(s) ajoutée(s), ${updated} mise(s) à jour.` : "Rien de nouveau dans ce fichier : vos annonces sont déjà à jour.",6000);
+};
+function saveFileLocally(name, html){
+  const url=URL.createObjectURL(new Blob([html],{type:"text/html"}));
+  const a=document.createElement("a"); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+$("#btnExport").onclick=async()=>{
+  try{
+    const d=new Date(), name=`mes-logements-marseille-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}.html`;
+    if(SNAP || !window.claude || !claude.use){ saveFileLocally(name, buildExport()); toast("Fichier téléchargé : envoyez-le, il s'ouvre dans n'importe quel navigateur.",5000); return; }
+    const dl = await claude.use("downloads"); if(!dl){ toast("Le téléchargement n'est pas disponible ici."); return; }
+    await dl.save({filename:name, data:buildExport()});
+    toast("Fichier prêt : envoyez-le, il s'ouvre dans n'importe quel navigateur.",5000);
+  }catch(e){ if(!(e&&/declin|cancel|abort/i.test((e.code||"")+(e.message||"")))) toast("Le téléchargement n'a pas abouti."); }
+};
+(async()=>{
+  if(SNAP){ startSnapshot(); return; }
+  if(!window.claude || !claude.use){ startLocal("Mode hors ligne : la sauvegarde partagée n'est pas disponible ici, les annonces sont gardées seulement dans ce navigateur."); return; }
+  claude.use("downloads").then(d=>{ if(d) $("#btnExport").hidden=false; }).catch(()=>{});
+  $("#btnImport").hidden=false;
+  claude.use("sample").then(s=>{ if(s){ SAMPLE=s; $("#bClaude").hidden=false; } }).catch(()=>{});
+  let db=null; try{ db=await claude.use("db"); }catch{}
+  if(!db){ startLocal("Connectez-vous à claude.ai pour sauvegarder vos annonces. En attendant, elles sont gardées seulement dans ce navigateur."); return; }
+  DB=db; COL=db.collection("logements");
+  const timer=setTimeout(()=>{ if(!ready) $("#banner").textContent="Vos annonces ne sont pas encore joignables… nouvelle tentative en cours."; },10000);
+  COL.onSnapshot(snap=>{
+    items = snap.docs.filter(d=>d.exists).map(d=>({...JSON.parse(JSON.stringify(d.data())),id:d.id}));
+    if(!snap.metadata.fromCache){ ready=true; clearTimeout(timer); $("#banner").textContent=""; }
+    renderAll();
+  }, err=>{ clearTimeout(timer); $("#banner").textContent = err&&err.code==="revoked" ? "L'accès à vos annonces a été retiré." : "Impossible de charger vos annonces pour le moment."; });
+})();
+</script>
+</body>
+</html>

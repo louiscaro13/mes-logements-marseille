@@ -291,6 +291,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(ROOT, "rapports"))
     ap.add_argument("--sans-supabase", action="store_true")
+    ap.add_argument("--site", action="store_true", help="écrit suggestions.json à la racine (lu par le site)")
     a = ap.parse_args()
     today = datetime.date.today().isoformat()
 
@@ -326,10 +327,24 @@ def main():
         extra = sorted([x for x in items if not x["deja_sur_site"] and not x["suspect"] and len(x["assouplissements"]) == 2], key=cle)
         top += extra[:10 - len(top)]
 
-    for x in top:
+    # le site filtre lui-même les annonces déjà enregistrées : on lui en donne davantage
+    pool = cands[:60]
+    if len(pool) < 60:
+        pool += sorted([x for x in items if not x["deja_sur_site"] and not x["suspect"] and len(x["assouplissements"]) == 2], key=cle)[:60 - len(pool)]
+    for x in {id(y): y for y in top + pool}.values():
         k = x.get("url_bienici") or x.get("url_figaro")
         x["deja_propose"] = hist.get(k)
         hist.setdefault(k, today)
+    if a.site:
+        champs = ("id", "sources", "loyer", "pieces", "surface", "arr", "quartier", "agence", "url_agence", "reference",
+                  "url_bienici", "url_figaro", "exterieur", "parking", "parking_option", "ext_source", "park_source",
+                  "assouplissements", "publie", "deja_propose")
+        sug = {"genere": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+               "lues": {"bienici": len(bi), "figaro": len(fi)},
+               "parfaits": sum(1 for x in items if not x["assouplissements"] and not x["suspect"]),
+               "criteres": CRITERES,
+               "annonces": [{k: x.get(k) for k in champs} for x in pool]}
+        json.dump(sug, open(os.path.join(ROOT, "suggestions.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     os.makedirs(os.path.dirname(hist_path), exist_ok=True)
     json.dump(hist, open(hist_path, "w"), indent=1, ensure_ascii=False)
 

@@ -1,0 +1,57 @@
+name: Suggestions du jour
+
+# Tous les jours, vers 16 h 20 heure de Paris : lit Bien'ici et Le Figaro, classe les
+# annonces selon les critères et publie suggestions.json, affiché dans l'onglet
+# « Suggestions » du site (prêt avant 17 h).
+# GitHub planifie en UTC : deux horaires couvrent l'heure d'hiver et l'heure d'été,
+# et seul celui qui tombe à 16 h à Paris fait le travail.
+on:
+  schedule:
+    - cron: "20 14 * * *"   # 16 h 20 à Paris en été (UTC+2)
+    - cron: "20 15 * * *"   # 16 h 20 à Paris en hiver (UTC+1)
+  workflow_dispatch: {}     # bouton « Run workflow » pour lancer à la main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: suggestions
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Heure de Paris
+        id: heure
+        run: |
+          H=$(TZ=Europe/Paris date +%H)
+          echo "Heure à Paris : $H"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$H" = "16" ] || [ "$H" = "17" ]; then
+            echo "go=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "Pas le bon créneau (heure d'été/hiver), rien à faire."
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.heure.outputs.go == '1'
+
+      - uses: actions/setup-python@v5
+        if: steps.heure.outputs.go == '1'
+        with:
+          python-version: "3.12"
+
+      - name: Analyse des annonces
+        if: steps.heure.outputs.go == '1'
+        run: python3 tools/scan.py --site --sans-supabase --out rapport
+
+      - name: Publier les suggestions
+        if: steps.heure.outputs.go == '1'
+        run: |
+          git config user.name "suggestions-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add suggestions.json data/propositions.json
+          if git diff --cached --quiet; then echo "Rien de nouveau."; exit 0; fi
+          git commit -m "Suggestions du $(TZ=Europe/Paris date +%d/%m/%Y)"
+          git push

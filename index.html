@@ -812,6 +812,12 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
 .confirm.on{display:flex}
 .dupnotice{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:10px;margin-bottom:16px;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--text)}
 .dupbox{padding:8px 10px;border-radius:9px;background:var(--warn-bg);border:1px solid var(--warn-line);font-size:12.5px;color:var(--text)}
+.sughead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.tier{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;display:inline-block}
+.tier.p{background:var(--warn-bg);border:1px solid var(--warn-line)}
+.tier.a{background:var(--surface-2);border:1px solid var(--border);color:var(--text-2);font-weight:500}
+.item.sug{cursor:default}
+.item.sug .acts{display:flex;gap:8px;flex-wrap:wrap}
 .item.dup{border-style:dashed;opacity:.8}
 .ro .mfoot>*:not(#bCancel),.ro .addc,.ro .cmt button,.ro #bDetect,.ro #bClaude,.ro #detectHint,.ro #bResetPos,.ro #mDup .btn{display:none!important}
 .ro .fld:has(textarea[name=texte]){display:none}
@@ -847,7 +853,7 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
 <body>
 <header><div class="hwrap">
   <div class="brand">🏠 Mes logements <small>Marseille</small></div>
-  <nav><a href="#tableau-de-bord" data-v="tableau-de-bord">Tableau de bord</a><a href="#annonces" data-v="annonces">Annonces</a></nav>
+  <nav><a href="#tableau-de-bord" data-v="tableau-de-bord">Tableau de bord</a><a href="#annonces" data-v="annonces">Annonces</a><a href="#suggestions" data-v="suggestions" id="navSug" hidden>✨ Suggestions</a></nav>
   <div class="spacer"></div>
   <button class="btn" id="btnImport" hidden title="Charger les annonces d'un fichier « Version à partager »">📥 Importer un fichier</button>
   <input type="file" id="fileImport" accept=".html,.htm,.json" hidden>
@@ -886,11 +892,19 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
     </div>
   </section>
 
+  <section class="view" id="v-suggestions">
+    <div class="sughead"><div><h2 style="margin:0">Suggestions du jour</h2><div class="hint" id="sugInfo"></div></div>
+      <div class="filters" style="margin:0"><select id="sugFilter"><option value="">Toutes</option><option value="parfait">⭐ Parfaits seulement</option></select><button class="btn sm" id="sugUnhide" hidden>Réafficher les masquées</button></div></div>
+    <div class="hint" style="margin:6px 0 14px">Critères : T2 ou T3, 900 € charges comprises max, balcon ou terrasse, parking ou box ; arrondissements dans l'ordre 6e, 5e, 10e, 4e, 9e, 3e, 2e, 8e. Sinon, un seul critère assoupli (jusqu'à 1 000 €, T1, sans extérieur ou sans parking). Les annonces déjà dans « Mes logements » n'apparaissent pas. Sources : Bien'ici et Le Figaro (SeLoger, Leboncoin et PAP bloquent la lecture automatique).</div>
+    <div class="list" id="sugList"></div>
+    <div style="text-align:center;margin-top:14px"><button class="btn" id="sugMore" hidden></button></div>
+  </section>
+
   <section class="view" id="v-annonces">
     <div class="filters">
       <input type="search" id="fQ" placeholder="Rechercher (quartier, agence, titre…)">
       <select id="fStatus"><option value="">Tous les états</option><option value="__dup">⚠️ Doublons</option></select>
-      <select id="fType"><option value="">T1 et T2</option><option>T1</option><option>T2</option><option value="Autre">Autre</option></select>
+      <select id="fType"><option value="">Tous les types</option><option>T1</option><option>T2</option><option>T3</option><option value="Autre">Autre</option></select>
       <select id="fArr"><option value="">Tous les arrondissements</option></select>
       <select id="fSort">
         <option value="maj">Tri : dernière modification</option>
@@ -912,7 +926,7 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
       <fieldset>
         <legend>Liens</legend>
         <div class="row">
-          <label class="fld"><span>Lien de l'annonce SeLoger</span><input type="url" name="urlSeloger" placeholder="https://www.seloger.com/annonces/…"></label>
+          <label class="fld"><span>Lien de l'annonce (SeLoger, Bien'ici, Le Figaro…)</span><input type="url" name="urlSeloger" placeholder="https://www.seloger.com/annonces/…"></label>
           <label class="fld"><span>Lien de l'agence en charge</span><input type="url" name="urlAgence" placeholder="https://www.agence-…"></label>
         </div>
         <label class="fld" style="margin-top:10px"><span>Texte de l'annonce (facultatif : copiez-collez la description pour une détection plus précise)</span><textarea name="texte" rows="3" placeholder="Ex. : Appartement T2 de 42 m² avec balcon, quartier Castellane, parking en sous-sol, 780 € CC…"></textarea></label>
@@ -928,7 +942,7 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
         <legend>Caractéristiques</legend>
         <div class="row">
           <label class="fld" style="grid-column:1/-1"><span>Titre</span><input name="titre" placeholder="Ex. : T2 lumineux Notre-Dame-du-Mont"></label>
-          <div class="fld"><span>Type</span><div class="seg" data-seg="type"><button type="button" data-val="T1">T1</button><button type="button" data-val="T2">T2</button><button type="button" data-val="Autre">Autre</button></div></div>
+          <div class="fld"><span>Type</span><div class="seg" data-seg="type"><button type="button" data-val="T1">T1</button><button type="button" data-val="T2">T2</button><button type="button" data-val="T3">T3</button><button type="button" data-val="Autre">Autre</button></div></div>
           <div class="fld"><span>Parking</span><div class="seg" data-seg="parking"><button type="button" data-val="oui">Oui</button><button type="button" data-val="non">Non</button></div></div>
           <div class="fld"><span>Extérieur</span><div class="seg" data-seg="exterieur"><button type="button" data-val="aucun">Aucun</button><button type="button" data-val="balcon">Balcon</button><button type="button" data-val="terrasse">Terrasse</button></div></div>
         </div>
@@ -1084,7 +1098,8 @@ function detect(urls, texte){
   let best=null;
   for(const p of PLACES){ for(const k of [p.k,p.k2]){ if(k.length>=4 && s.includes(" "+k+" ") && (!best||k.length>best.len)) best={p,len:k.length}; } }
   if(best){ res.quartier=best.p.n; if(!res.arr) res.arr=best.p.a; found.push("quartier "+best.p.n); }
-  if(/ (t1|f1|studio|1 piece|1 pieces|studette) /.test(s)){res.type="T1";found.push("T1");}
+  if(/ (t3|f3|3 pieces|trois pieces) /.test(s)){res.type="T3";found.push("T3");}
+  else if(/ (t1|f1|studio|1 piece|1 pieces|studette) /.test(s)){res.type="T1";found.push("T1");}
   else if(/ (t2|f2|2 pieces|deux pieces) /.test(s)){res.type="T2";found.push("T2");}
   if(/ (parking|garage|box|stationnement) /.test(s) && !/ (sans parking|pas de parking) /.test(s)){res.parking="oui";found.push("parking");}
   if(/ terrasse/.test(s)){res.exterieur="terrasse";found.push("terrasse");}
@@ -1175,7 +1190,7 @@ function renderDash(){
   const n=items.length;
   const by = id => items.filter(x=>x.statut===id);
   $("#kTotal").textContent=n;
-  $("#kTotalSub").textContent = (Object.keys(DUP).length?`${Object.keys(DUP).length} doublon(s) exclu(s) · `:"") + (n ? `${items.filter(x=>x.type==="T1").length} T1 · ${items.filter(x=>x.type==="T2").length} T2`+(by("pause").length?` · ${by("pause").length} en pause`:"") : "Ajoutez votre première annonce");
+  $("#kTotalSub").textContent = (Object.keys(DUP).length?`${Object.keys(DUP).length} doublon(s) exclu(s) · `:"") + (n ? `${items.filter(x=>x.type==="T1").length} T1 · ${items.filter(x=>x.type==="T2").length} T2 · ${items.filter(x=>x.type==="T3").length} T3`+(by("pause").length?` · ${by("pause").length} en pause`:"") : "Ajoutez votre première annonce");
   const now=Date.now();
   const upc = by("visite_programmee").filter(x=>x.dateVisite).sort((a,b)=>new Date(a.dateVisite)-new Date(b.dateVisite));
   const fut = upc.filter(x=>new Date(x.dateVisite).getTime()>=now-3*3600e3);
@@ -1194,8 +1209,8 @@ function renderDash(){
     ...noDate.map(x=>`<div class="it" data-open="${esc(x.id)}"><div class="date" style="color:var(--muted)">Date ?</div><div><div>${esc(x.titre||"Annonce")}</div><div class="t">${esc(locStr(x))}</div></div></div>`)].join("") : '<div class="empty">Aucune visite programmée.</div>';
 
   const pct = k => n? Math.round(k/n*100)+" %" : "–";
-  const T1=items.filter(x=>x.type==="T1").length, T2=items.filter(x=>x.type==="T2").length, P=items.filter(x=>x.parking==="oui").length, B=items.filter(x=>x.exterieur==="balcon").length, Te=items.filter(x=>x.exterieur==="terrasse").length;
-  $("#feat").innerHTML = [["T1",T1],["T2",T2],["Avec parking",P],["Balcon ou terrasse",B+Te,`${B} balcon · ${Te} terrasse`]].map(([l,v,s])=>`<div class="f"><div class="v">${v}</div><div class="l">${esc(l)} · ${pct(v)}${s?"<br>"+esc(s):""}</div></div>`).join("");
+  const T1=items.filter(x=>x.type==="T1").length, T2=items.filter(x=>x.type==="T2"||x.type==="T3").length, P=items.filter(x=>x.parking==="oui").length, B=items.filter(x=>x.exterieur==="balcon").length, Te=items.filter(x=>x.exterieur==="terrasse").length;
+  $("#feat").innerHTML = [["T1",T1],["T2 ou T3",T2],["Avec parking",P],["Balcon ou terrasse",B+Te,`${B} balcon · ${Te} terrasse`]].map(([l,v,s])=>`<div class="f"><div class="v">${v}</div><div class="l">${esc(l)} · ${pct(v)}${s?"<br>"+esc(s):""}</div></div>`).join("");
 
   const rents = items.map(x=>+x.loyer).filter(v=>v>0);
   const avg = a => a.length? a.reduce((s,v)=>s+v,0)/a.length : null;
@@ -1290,7 +1305,77 @@ function renderList(){
       <div class="foot"><div class="links">${su?`<a href="${esc(su)}" target="_blank" rel="noopener">SeLoger ↗</a>`:""}${au?`<a href="${esc(au)}" target="_blank" rel="noopener">${esc(x.agence||host(au)||"Agence")} ↗</a>`:(x.agence?`<span>${esc(x.agence)}</span>`:"")}</div><span>💬 ${nC} · ${esc(x.maj?"modifié le "+fmtShort(x.maj):"")}</span></div>
     </div>`;}).join("") : `<div class="empty">${items.length?"Aucune annonce ne correspond aux filtres.":"Aucune annonce pour l'instant. Cliquez sur « Ajouter une annonce »."}</div>`;
 }
-function renderAll(){ computeDups(); renderDupNotice(); renderDash(); renderPins(); renderList(); }
+function renderAll(){ computeDups(); renderDupNotice(); renderDash(); renderPins(); renderList(); renderSug(); }
+
+/* ---------- Suggestions du jour (fichier suggestions.json publié chaque jour sur le site) ---------- */
+let SUG=null, sugShown=10;
+const SUG_HIDE_KEY="suggestions-masquees";
+const sugHidden=()=>{ try{ return new Set(JSON.parse(localStorage.getItem(SUG_HIDE_KEY)||"[]")); }catch{ return new Set(); } };
+function sugSetHidden(set){ try{ localStorage.setItem(SUG_HIDE_KEY,JSON.stringify([...set].slice(-500))); }catch{} }
+function sugOnSite(s){
+  const urls=[s.url_bienici,s.url_figaro].filter(Boolean).map(u=>u.split("?")[0]);
+  const nums=new Set(urls.join(" ").match(/\d{6,}/g)||[]);
+  return items.find(x=>{
+    const hay=[x.urlSeloger,x.urlAgence,x.titre].join(" ");
+    if(urls.some(u=>hay.includes(u))) return true;
+    if((hay.match(/\d{6,}/g)||[]).some(n=>nums.has(n))) return true;
+    const t={T1:1,T2:2,T3:3}[x.type];
+    return +x.arr===s.arr && x.loyer && Math.abs(x.loyer-s.loyer)<=15 && (!t||t===s.pieces) && (!(x.surface&&s.surface)||Math.abs(x.surface-s.surface)<=2);
+  });
+}
+async function loadSug(){
+  if(!(SNAP&&SNAP.site)) return;
+  try{ const r=await fetch("suggestions.json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) return; SUG=await r.json(); }catch{ return; }
+  $("#navSug").hidden=false; renderSug();
+}
+function renderSug(){
+  if(!SUG) return;
+  const g=new Date(SUG.genere), old=(Date.now()-g)/36e5>30;
+  $("#sugInfo").innerHTML = `Mis à jour le ${esc(g.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}))} à ${esc(g.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))} · ${(+SUG.lues?.bienici||0)+(+SUG.lues?.figaro||0)} annonces analysées · ${+SUG.parfaits||0} parfaites` + (old?" · ⚠️ pas de mise à jour récente":"") + " · nouvelle liste chaque jour avant 17 h";
+  const hid=sugHidden(), onlyP=$("#sugFilter").value==="parfait";
+  const all=(SUG.annonces||[]).filter(s=>s&&s.arr&&s.loyer);
+  const list=all.filter(s=>!hid.has(s.id) && !sugOnSite(s) && (!onlyP||!(s.assouplissements||[]).length));
+  $("#sugUnhide").hidden=!all.some(s=>hid.has(s.id));
+  const shown=list.slice(0,sugShown);
+  $("#sugMore").hidden=list.length<=sugShown; $("#sugMore").textContent=`Afficher ${Math.min(10,list.length-sugShown)} de plus (${list.length-sugShown} restantes)`;
+  const today=g.toISOString().slice(0,10);
+  $("#sugList").innerHTML = shown.length ? shown.map((s,i)=>{
+    const ass=s.assouplissements||[], parfait=!ass.length;
+    const arr=ARR_LBL(+s.arr), safe=u=>safeUrl(u||"");
+    const ext=s.exterieur?`<span class="chip on">${s.exterieur==="terrasse"?"☀️ Terrasse":"🌿 "+esc(cap(s.exterieur))}</span>`:'<span class="chip">Sans extérieur</span>';
+    const park=s.parking?(s.parking_option?'<span class="chip">🚗 Parking en option (payant)</span>':'<span class="chip on">🚗 Parking</span>'):'<span class="chip">Sans parking</span>';
+    const nouveau=!s.deja_propose||s.deja_propose===today;
+    const links=[safe(s.url_bienici)?`<a href="${esc(safe(s.url_bienici))}" target="_blank" rel="noopener">Bien'ici ↗</a>`:"", safe(s.url_figaro)?`<a href="${esc(safe(s.url_figaro))}" target="_blank" rel="noopener">Le Figaro ↗</a>`:"",
+      safe(s.url_agence)?`<a href="${esc(safe(s.url_agence))}" target="_blank" rel="noopener">${esc(s.agence||"Agence")} ↗</a>`:(s.agence?`<span>${esc(s.agence)}</span>`:"")].join("");
+    return `<div class="item sug" style="--sc:var(${parfait?"--s4":"--border"})">
+      <div class="top"><div><span class="tier ${parfait?"p":"a"}">${parfait?"⭐ Parfait":"≈ "+esc(ass.join(" + "))}</span> ${nouveau?'<span class="chip on">🆕 nouveau</span>':`<span class="chip">proposé depuis le ${esc(fmtShort(s.deja_propose))}</span>`}
+        <div class="title" style="margin-top:6px">${i+1}. T${+s.pieces} · ${esc(s.surface?String(s.surface).replace(".",",")+" m²":"surface ?")}</div>
+        <div class="loc">📍 ${esc(s.quartier||"Quartier non précisé")} · ${esc(arr)} arr.</div></div><div class="price">${esc(fmtEur(s.loyer))}</div></div>
+      <div class="chips">${ext}${park}</div>
+      <div class="foot"><div class="links">${links}</div>${s.reference?`<span>réf. ${esc(s.reference)}</span>`:""}</div>
+      <div class="acts"><button class="btn sm primary" data-sugadd="${esc(s.id)}">➕ Ajouter à mes logements</button><button class="btn sm" data-sughide="${esc(s.id)}">Masquer</button></div>
+    </div>`; }).join("") : `<div class="empty">${all.length?"Toutes les suggestions du jour sont déjà dans vos logements ou masquées.":"Pas de suggestion aujourd'hui."}</div>`;
+}
+function sugToItem(s){
+  const p=findPlace(s.quartier);
+  const d=new Date(SUG.genere).toLocaleDateString("fr-FR");
+  return {id:uid(), cree:new Date().toISOString(), statut:"a_contacter",
+    titre:`T${s.pieces} · ${p?p.n:(s.quartier||"Marseille "+ARR_LBL(+s.arr))}`,
+    urlSeloger:s.url_bienici||s.url_figaro||"", urlAgence:(s.url_agence&&!/google\.com\/search/.test(s.url_agence))?s.url_agence:"",
+    agence:s.agence||"", arr:+s.arr, quartier:p?p.n:(s.quartier||""), adresse:"",
+    type:["T1","T2","T3"][s.pieces-1]||"Autre", parking:s.parking&&!s.parking_option?"oui":"non",
+    exterieur:s.exterieur?(s.exterieur==="terrasse"?"terrasse":"balcon"):"aucun", loyer:+s.loyer, surface:s.surface?+s.surface:null,
+    commentaires:[{id:uid(),date:new Date().toISOString(),texte:`Ajouté depuis les suggestions du ${d}`+(s.reference?` (réf. agence ${s.reference})`:"")+(s.url_bienici&&s.url_figaro?`\nAussi sur Le Figaro : ${s.url_figaro}`:"")+(s.parking_option?"\nParking en option, payant en plus.":"")}]};
+}
+document.addEventListener("click",async e=>{
+  const a=e.target.closest("[data-sugadd]"), h=e.target.closest("[data-sughide]");
+  if(a&&SUG){ const s=SUG.annonces.find(x=>x.id===a.dataset.sugadd); if(!s) return; a.disabled=true;
+    try{ await saveDoc(sugToItem(s)); renderSug(); toast("Ajouté à vos logements (état « À contacter »).",4000); }catch{ a.disabled=false; toast("Échec de l'ajout, réessayez."); } }
+  if(h){ const set=sugHidden(); set.add(h.dataset.sughide); sugSetHidden(set); renderSug(); }
+});
+$("#sugMore").onclick=()=>{ sugShown+=10; renderSug(); };
+$("#sugFilter").onchange=()=>{ sugShown=10; renderSug(); };
+$("#sugUnhide").onclick=()=>{ sugSetHidden(new Set()); renderSug(); };
 
 /* ---------- Fiche (modale) ---------- */
 let cur=null, isNew=false;
@@ -1384,12 +1469,12 @@ async function analyseClaude(){
 Quartiers connus (nom|arrondissement) : ${QUARTIERS.map(q=>q[0]+"|"+q[1]).join("; ")}.
 Liens : ${urls.join(" , ")||"(aucun)"}
 Texte de l'annonce : """${texte.slice(0,6000)||"(aucun)"}"""
-Réponds UNIQUEMENT par un objet JSON : {"titre":string|null (court, ex. "T2 avec balcon - Castellane"),"type":"T1"|"T2"|"Autre"|null,"parking":"oui"|"non"|null,"exterieur":"balcon"|"terrasse"|"aucun"|null,"loyer":number|null (charges comprises, €/mois),"surface":number|null,"arrondissement":1-16|null,"quartier":string|null (un nom de la liste si possible),"adresse":string|null (rue seulement si elle est donnée),"agence":string|null}`;
+Réponds UNIQUEMENT par un objet JSON : {"titre":string|null (court, ex. "T2 avec balcon - Castellane"),"type":"T1"|"T2"|"T3"|"Autre"|null,"parking":"oui"|"non"|null,"exterieur":"balcon"|"terrasse"|"aucun"|null,"loyer":number|null (charges comprises, €/mois),"surface":number|null,"arrondissement":1-16|null,"quartier":string|null (un nom de la liste si possible),"adresse":string|null (rue seulement si elle est donnée),"agence":string|null}`;
   try{
     const r = await SAMPLE.json(prompt,{modelTier:"quick"});
     const res={}; const found=[];
     if(r && typeof r==="object"){
-      if(["T1","T2","Autre"].includes(r.type)){res.type=r.type;found.push(r.type);}
+      if(["T1","T2","T3","Autre"].includes(r.type)){res.type=r.type;found.push(r.type);}
       if(["oui","non"].includes(r.parking)){res.parking=r.parking;found.push("parking : "+r.parking);}
       if(["balcon","terrasse","aucun"].includes(r.exterieur)){res.exterieur=r.exterieur;found.push("extérieur : "+r.exterieur);}
       if(+r.loyer>0){res.loyer=Math.round(+r.loyer);found.push("loyer "+res.loyer+" €");}
@@ -1472,7 +1557,7 @@ F.addEventListener("submit",async e=>{
 $("#fStatus").innerHTML += STATUSES.map(s=>`<option value="${s.id}">${s.icon} ${esc(s.label)}</option>`).join("");
 for(let a=1;a<=16;a++){ $("#fArr").innerHTML+=`<option value="${a}">${ARR_LBL(a)} arrondissement</option>`; F.elements.arr.innerHTML+=`<option value="${a}">${ARR_LBL(a)} arrondissement (130${String(a).padStart(2,"0")})</option>`; }
 $("#dlQ").innerHTML = PLACES.filter(p=>!p.alias||!QUARTIERS.some(q=>norm(q[0])===p.k)).map(p=>`<option value="${esc(p.n)}">${ARR_LBL(p.a)}</option>`).join("");
-function route(){ const v=(location.hash||"").slice(1)==="annonces"?"annonces":"tableau-de-bord"; document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v)); document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v)); if(v==="tableau-de-bord"&&map) setTimeout(()=>map.invalidateSize(),20); }
+function route(){ const h=(location.hash||"").slice(1); const v=["annonces","suggestions"].includes(h)?h:"tableau-de-bord"; document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v)); document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v)); if(v==="tableau-de-bord"&&map) setTimeout(()=>map.invalidateSize(),20); }
 window.addEventListener("hashchange",route); route();
 initMap(); renderAll();
 
@@ -1534,6 +1619,7 @@ async function afterLogin(session){
   $("#btnLogout").title="Connecté : "+(session.user&&session.user.email||"");
   $("#banner").textContent="Chargement des annonces…";
   await loadAll();
+  loadSug();
   // mises à jour en direct (modifications de l'autre personne) + rafraîchissement de secours
   SUPA.channel("logements").on("postgres_changes",{event:"*",schema:"public",table:"logements"},scheduleReload).subscribe();
   setInterval(()=>{ if(!document.hidden && !cur) loadAll(); },30000);
