@@ -13,7 +13,7 @@
   --bg:#f4f3f0; --surface:#fcfcfb; --surface-2:#f0efec; --border:#e2e0da;
   --text:#0b0b0b; --text-2:#52514e; --muted:#7d7b75;
   --accent:#2a78d6; --accent-ink:#fff; --danger:#c43a3a;
-  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#8a8880;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#8a8880; --s7:#e34948;
   --bar:#2a78d6; --sea:#cfdfec; --land:#fbfaf7; --land-alt:#f3f1ea; --land-hi:#e9eef6; --land-2:#e6e4dd; --land-line:#c9c6bd; --arr-line:#a9a59a; --arr-txt:#9b978c;
   --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.06);
 }
@@ -23,7 +23,7 @@
     --bg:#121211; --surface:#1a1a19; --surface-2:#23231f; --border:#33322e;
     --text:#f0efec; --text-2:#c3c2b7; --muted:#8f8d85;
     --accent:#3987e5; --danger:#e66767;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#8f8d85;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#8f8d85; --s7:#e66767;
     --bar:#3987e5; --sea:#152230; --land:#24241f; --land-alt:#2b2a25; --land-hi:#2a3240; --land-2:#1b1b19; --land-line:#45443e; --arr-line:#64625a; --arr-txt:#7d7b72;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
   }
@@ -33,7 +33,7 @@
     --bg:#121211; --surface:#1a1a19; --surface-2:#23231f; --border:#33322e;
     --text:#f0efec; --text-2:#c3c2b7; --muted:#8f8d85;
     --accent:#3987e5; --danger:#e66767;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#8f8d85;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#8f8d85; --s7:#e66767;
     --bar:#3987e5; --sea:#152230; --land:#24241f; --land-alt:#2b2a25; --land-hi:#2a3240; --land-2:#1b1b19; --land-line:#45443e; --arr-line:#64625a; --arr-txt:#7d7b72;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
 }
@@ -355,6 +355,7 @@ const STATUSES = [
   {id:"visite_programmee",    label:"Visite programmée",                   short:"Visite programmée",  icon:"📅", c:"--s4"},
   {id:"visite_attente",       label:"Visite effectuée, en attente d'une réponse", short:"Visite faite, en attente", icon:"⏳", c:"--s5"},
   {id:"pause",                label:"Projet en pause",                     short:"Projet en pause",    icon:"⏸️", c:"--s6"},
+  {id:"ferme",                label:"Dossier fermé",                       short:"Dossier fermé",      icon:"🔒", c:"--s7"},
 ];
 const ST = Object.fromEntries(STATUSES.map(s=>[s.id,s]));
 // [nom, arrondissement, lat, lng]
@@ -526,7 +527,7 @@ function renderDash(){
   const n=items.length;
   const by = id => items.filter(x=>x.statut===id);
   $("#kTotal").textContent=n;
-  $("#kTotalSub").textContent = (Object.keys(DUP).length?`${Object.keys(DUP).length} doublon(s) exclu(s) · `:"") + (n ? `${items.filter(x=>x.type==="T1").length} T1 · ${items.filter(x=>x.type==="T2").length} T2 · ${items.filter(x=>x.type==="T3").length} T3`+(by("pause").length?` · ${by("pause").length} en pause`:"") : "Ajoutez votre première annonce");
+  $("#kTotalSub").textContent = (Object.keys(DUP).length?`${Object.keys(DUP).length} doublon(s) exclu(s) · `:"") + (n ? `${items.filter(x=>x.type==="T1").length} T1 · ${items.filter(x=>x.type==="T2").length} T2 · ${items.filter(x=>x.type==="T3").length} T3`+(by("pause").length?` · ${by("pause").length} en pause`:"")+(by("ferme").length?` · ${by("ferme").length} fermé(s)`:"") : "Ajoutez votre première annonce");
   const now=Date.now();
   const upc = by("visite_programmee").filter(x=>x.dateVisite).sort((a,b)=>new Date(a.dateVisite)-new Date(b.dateVisite));
   const fut = upc.filter(x=>new Date(x.dateVisite).getTime()>=now-3*3600e3);
@@ -564,7 +565,7 @@ function renderDash(){
 const locStr = x => [x.quartier, x.arr?ARR_LBL(+x.arr)+" arr.":""].filter(Boolean).join(" · ") || "Localisation inconnue";
 
 /* ---------- Carte ---------- */
-let map=null, pinLayer=null, mini=null, miniPin=null; const hidden=new Set();
+let map=null, pinLayer=null, mini=null, miniPin=null; const hidden=new Set(["ferme"]); // dossiers fermés masqués par défaut sur la carte
 // Lieux principaux : [nom, lat, lng, pictogramme, importance (1 = toujours affiché)]
 const POIS = [
 ["Gare Saint-Charles",43.3027,5.3806,"🚆",1],["Vieux-Port",43.2945,5.3712,"⚓",1],["Notre-Dame de la Garde",43.2840,5.3712,"⛪",1],["Mucem",43.2966,5.3610,"🏛️",1],
@@ -595,7 +596,7 @@ function initMap(){
   map = L.map("map",{zoomControl:true,attributionControl:false,minZoom:11,maxZoom:17,zoomSnap:.5,maxBounds:[[43.12,5.15],[43.45,5.65]]}).setView([43.29,5.40],12);
   baseLayers(map,true);
   pinLayer = L.layerGroup().addTo(map);
-  $("#mapLegend").innerHTML = STATUSES.map(s=>`<label><input type="checkbox" checked data-st="${s.id}"><span class="dot" style="background:var(${s.c})"></span>${s.icon} ${esc(s.short)} <span class="count" data-cnt="${s.id}"></span></label>`).join("");
+  $("#mapLegend").innerHTML = STATUSES.map(s=>`<label><input type="checkbox" ${hidden.has(s.id)?"":"checked"} data-st="${s.id}"><span class="dot" style="background:var(${s.c})"></span>${s.icon} ${esc(s.short)} <span class="count" data-cnt="${s.id}"></span></label>`).join("");
   $("#mapLegend").addEventListener("change",e=>{const c=e.target.closest("input");if(!c)return; c.checked?hidden.delete(c.dataset.st):hidden.add(c.dataset.st); renderPins();});
 }
 function renderPins(){
