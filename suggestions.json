@@ -1,10 +1,10 @@
 {
-"genere": "2026-11-25T15:25:05+00:00",
+"genere": "2026-11-25T15:30:17+00:00",
 "lues": {
 "bienici": 408,
-"figaro": 386
+"figaro": 0
 },
-"parfaits": 58,
+"parfaits": 45,
 "criteres": {
 "pieces": [
 2,
@@ -73,34 +73,9 @@
 "deja_propose": "2026-11-25"
 },
 {
-"id": "fi:110675941",
-"sources": [
-"figaro"
-],
-"loyer": 900,
-"pieces": 3,
-"surface": 55,
-"arr": 5,
-"quartier": "",
-"agence": "LOCSERVICE",
-"url_agence": "https://www.google.com/search?q=LOCSERVICE%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "719303",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110675941.html",
-"exterieur": "balcon",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-09T06:38:38",
-"deja_propose": "2026-11-25"
-},
-{
 "id": "bi:ag694538-557879852",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 689,
 "pieces": 2,
@@ -108,10 +83,10 @@
 "arr": 10,
 "quartier": "Pont de Vivaux",
 "agence": "Valority Administration de Biens",
-"url_agence": "https://annonces.valority.com/",
+"url_agence": "https://www.google.com/search?q=Valority%20Administration%20de%20Biens%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "VAL-26672",
 "url_bienici": "https://www.bienici.com/annonce/ag694538-557879852",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111058277.html",
+"url_figaro": null,
 "exterieur": "balcon",
 "parking": true,
 "parking_option": false,
@@ -194,30 +169,6 @@
 "deja_propose": "2026-11-25"
 },
 {
-"id": "fi:110737683",
-"sources": [
-"figaro"
-],
-"loyer": 900,
-"pieces": 2,
-"surface": 42.47,
-"arr": 10,
-"quartier": "La Capelette",
-"agence": "C.L IMMOBILIER",
-"url_agence": "https://climmobiliergestion.com/fr/",
-"reference": "T2CAPHIPPODROME",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110737683.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-10T19:04:40",
-"deja_propose": "2026-11-25"
-},
-{
 "id": "bi:citya-immobilier-16802-GES89210176-59",
 "sources": [
 "bienici"
@@ -268,8 +219,7 @@
 {
 "id": "bi:ag134777-562130108",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 800,
 "pieces": 2,
@@ -277,10 +227,10 @@
 "arr": 4,
 "quartier": "La Blancarde",
 "agence": "PAUQUET IMMOBILIER",
-"url_agence": "https://pauquetimmo.com/",
+"url_agence": "https://www.google.com/search?q=PAUQUET%20IMMOBILIER%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "LO260136",
 "url_bienici": "https://www.bienici.com/annonce/ag134777-562130108",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-104915613.html",
+"url_figaro": null,
 "exterieur": "balcon",
 "parking": true,
 "parking_option": false,
@@ -288,7 +238,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-23T11:06:37.861Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:apimo-5936058",
@@ -312,7 +262,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-24T13:12:49.119Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-projetimgest-2740",
@@ -336,7 +286,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-19T16:04:29.204Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag135026-560687366",
@@ -360,7 +310,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-17T12:33:38.760Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:laforet-immo-facile-4622329",
@@ -384,6 +334,30 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-17T19:25:20.105Z",
+"deja_propose": "2026-11-25"
+},
+{
+"id": "bi:hektor-comtesseciotat-44043",
+"sources": [
+"bienici"
+],
+"loyer": 830,
+"pieces": 3,
+"surface": 54,
+"arr": 9,
+"quartier": "Saint-Tronc",
+"agence": "LA COMTESSE IMMOBILIER ",
+"url_agence": "http://www.lacomtesse.fr/",
+"reference": "V5010044043",
+"url_bienici": "https://www.bienici.com/annonce/hektor-comtesseciotat-44043",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "description",
+"assouplissements": [],
+"publie": "1970-01-01T00:00:00.000Z",
 "deja_propose": null
 },
 {
@@ -408,7 +382,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-19T00:37:59.997Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-agence-capimmo-48888",
@@ -432,7 +406,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-22T19:55:36.698Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag135026-552041396",
@@ -456,13 +430,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-09-30T11:26:41.683Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag135528-561138296",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 900,
 "pieces": 2,
@@ -473,7 +446,7 @@
 "url_agence": "http://www.imrep.fr/",
 "reference": "7946326",
 "url_bienici": "https://www.bienici.com/annonce/ag135528-561138296",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111063519.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
@@ -481,13 +454,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-19T12:04:10.331Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:apimo-87574996",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 750,
 "pieces": 2,
@@ -498,7 +470,7 @@
 "url_agence": "https://immobonnemere.fr/",
 "reference": "87574996",
 "url_bienici": "https://www.bienici.com/annonce/apimo-87574996",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110880273.html",
+"url_figaro": null,
 "exterieur": "loggia",
 "parking": true,
 "parking_option": false,
@@ -506,61 +478,12 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-13T14:40:27.852Z",
-"deja_propose": null
-},
-{
-"id": "fi:110932203",
-"sources": [
-"figaro"
-],
-"loyer": 780,
-"pieces": 3,
-"surface": 60,
-"arr": 3,
-"quartier": "",
-"agence": "LOCSERVICE",
-"url_agence": "https://www.google.com/search?q=LOCSERVICE%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "2624090",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110932203.html",
-"exterieur": "balcon",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-16T06:38:45",
-"deja_propose": null
-},
-{
-"id": "fi:111005811",
-"sources": [
-"figaro"
-],
-"loyer": 800,
-"pieces": 2,
-"surface": 38,
-"arr": 3,
-"quartier": "Saint Mauront",
-"agence": "GIT IMMO",
-"url_agence": "http://www.gitimmo.fr",
-"reference": "F71189",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111005811.html",
-"exterieur": "balcon",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "description",
-"assouplissements": [],
-"publie": "2026-11-17T21:51:45",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-comtesseciotat-55997",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 790,
 "pieces": 2,
@@ -571,39 +494,15 @@
 "url_agence": "http://www.lacomtesse.fr/",
 "reference": "123456",
 "url_bienici": "https://www.bienici.com/annonce/hektor-comtesseciotat-55997",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111284031.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
 "ext_source": "annonce",
-"park_source": "annonce",
+"park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-24T09:27:24.520Z",
-"deja_propose": null
-},
-{
-"id": "fi:110103589",
-"sources": [
-"figaro"
-],
-"loyer": 850,
-"pieces": 2,
-"surface": 45,
-"arr": 2,
-"quartier": "",
-"agence": "L'AGENCE DU PANIER",
-"url_agence": "https://www.agence-du-panier.fr/",
-"reference": "782",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110103589.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-10-22T02:17:41",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:citya-immobilier-1282-GES15180153-93",
@@ -627,13 +526,12 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-berthoz-2061",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 790,
 "pieces": 2,
@@ -644,7 +542,7 @@
 "url_agence": "https://cabinet-berthoz.fr/",
 "reference": "GOUDES",
 "url_bienici": "https://www.bienici.com/annonce/hektor-berthoz-2061",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110827217.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
@@ -652,7 +550,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-10-03T17:27:28.102Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag313862-556807379",
@@ -676,7 +574,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-10-29T23:25:07.094Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag313862-562523108",
@@ -700,31 +598,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-24T22:55:35.962Z",
-"deja_propose": null
-},
-{
-"id": "fi:111245539",
-"sources": [
-"figaro"
-],
-"loyer": 870,
-"pieces": 2,
-"surface": 30,
-"arr": 8,
-"quartier": "Pointe Rouge",
-"agence": "ALBATROS WEB",
-"url_agence": "https://www.google.com/search?q=ALBATROS%20WEB%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "6b0583f5576361124fig",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111245539.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-24T15:00:08",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-ibh-immo-2349",
@@ -748,7 +622,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:era-2-7647623",
@@ -772,7 +646,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-11T11:59:15.983Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag135282-561426911",
@@ -796,7 +670,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-20T10:16:18.799Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:century-21-202_279_68180",
@@ -820,7 +694,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-17T01:16:48.756Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:century-21-202_830_20030",
@@ -844,13 +718,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-25T01:18:49.874Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-comtesseciotat-56832",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 800,
 "pieces": 3,
@@ -861,7 +734,7 @@
 "url_agence": "http://www.lacomtesse.fr/",
 "reference": "895",
 "url_bienici": "https://www.bienici.com/annonce/hektor-comtesseciotat-56832",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111196819.html",
+"url_figaro": null,
 "exterieur": "balcon",
 "parking": true,
 "parking_option": false,
@@ -869,7 +742,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-20T09:27:49.466Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-projetimgest-2632",
@@ -893,85 +766,12 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
-},
-{
-"id": "fi:110843823",
-"sources": [
-"figaro"
-],
-"loyer": 800,
-"pieces": 2,
-"surface": 41,
-"arr": 13,
-"quartier": "",
-"agence": "GIT IMMO",
-"url_agence": "http://www.gitimmo.fr",
-"reference": "F71175",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110843823.html",
-"exterieur": "balcon",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "description",
-"assouplissements": [],
-"publie": "2026-11-13T21:48:29",
-"deja_propose": null
-},
-{
-"id": "fi:110533641",
-"sources": [
-"figaro"
-],
-"loyer": 800,
-"pieces": 2,
-"surface": 46,
-"arr": 13,
-"quartier": "",
-"agence": "RESEAU IMMO-DIFFUSION",
-"url_agence": "http://www.immo-diffusion.fr",
-"reference": "Id-EXP27808g-0311",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110533641.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-03T22:19:19",
-"deja_propose": null
-},
-{
-"id": "fi:68759580",
-"sources": [
-"figaro"
-],
-"loyer": 800,
-"pieces": 3,
-"surface": 56.97,
-"arr": 14,
-"quartier": "",
-"agence": "Agence de la Comtesse Marseille 6e",
-"url_agence": "https://inconnupourlemoment.fr",
-"reference": "L1280041178",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-68759580.html",
-"exterieur": "balcon",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2024-04-27T12:11:29",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:netty-company38853vjf-appt-3669",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 803,
 "pieces": 2,
@@ -982,7 +782,7 @@
 "url_agence": "https://www.google.com/search?q=Le%20Beaurep%C3%A8re%20Agency%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "LA3669-AIBG",
 "url_bienici": "https://www.bienici.com/annonce/netty-company38853vjf-appt-3669",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-96032537.html",
+"url_figaro": null,
 "exterieur": "balcon",
 "parking": true,
 "parking_option": false,
@@ -990,7 +790,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:century-21-202_830_20018",
@@ -1014,37 +814,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-10T01:14:05.317Z",
-"deja_propose": null
-},
-{
-"id": "fi:111290177",
-"sources": [
-"figaro"
-],
-"loyer": 820,
-"pieces": 2,
-"surface": 34,
-"arr": 12,
-"quartier": "",
-"agence": "ALBATROS WEB",
-"url_agence": "https://www.google.com/search?q=ALBATROS%20WEB%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "6b06d56ca4e261125fig",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111290177.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-25T15:00:05",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag343928-560677097",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 825.53,
 "pieces": 2,
@@ -1055,7 +830,7 @@
 "url_agence": "https://static.orpi.com/",
 "reference": "VOO1-8M2-JIB",
 "url_bienici": "https://www.bienici.com/annonce/ag343928-560677097",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110997565.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
@@ -1063,7 +838,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-17T11:31:04.411Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:immo-facile-61401572",
@@ -1087,31 +862,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
-},
-{
-"id": "fi:110991811",
-"sources": [
-"figaro"
-],
-"loyer": 830,
-"pieces": 2,
-"surface": 37.84,
-"arr": 12,
-"quartier": "La Fourragère",
-"agence": "ORPI - 3 Bastides",
-"url_agence": "http://www.orpi.com/agencedes3bastides",
-"reference": "CGVJ-QZX-PE4",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110991811.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-17T12:56:25",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:immo-facile-58124945",
@@ -1135,7 +886,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag694538-560439734",
@@ -1159,13 +910,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-16T12:21:37.236Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:apimo-86743838",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 850,
 "pieces": 2,
@@ -1173,42 +923,18 @@
 "arr": 13,
 "quartier": "La Croix Rouge",
 "agence": "Avenir Immo",
-"url_agence": "https://avenirimmo.odoo.com/",
+"url_agence": "https://www.google.com/search?q=Avenir%20Immo%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "86743838",
 "url_bienici": "https://www.bienici.com/annonce/apimo-86743838",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-99510573.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
 "ext_source": "annonce",
-"park_source": "annonce",
+"park_source": "description",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
-},
-{
-"id": "fi:110096313",
-"sources": [
-"figaro"
-],
-"loyer": 850,
-"pieces": 3,
-"surface": 57,
-"arr": 13,
-"quartier": "Saint Just",
-"agence": "GIT IMMO",
-"url_agence": "http://www.gitimmo.fr",
-"reference": "F61688",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110096313.html",
-"exterieur": "loggia",
-"parking": true,
-"parking_option": false,
-"ext_source": "description",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-10-21T21:48:58",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag135789-554110811",
@@ -1232,7 +958,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-10-14T12:35:57.328Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:nockee-prop_ad_0345wHPuRAeAUfhUr2nwBB",
@@ -1256,7 +982,7 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-immofabio-336",
@@ -1280,13 +1006,12 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:ag130161-560978648",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 865,
 "pieces": 2,
@@ -1294,10 +1019,10 @@
 "arr": 13,
 "quartier": "La Rose",
 "agence": "GIT'IMMO LOCATION",
-"url_agence": "http://www.gitimmo.fr",
+"url_agence": "https://www.google.com/search?q=GIT%27IMMO%20LOCATION%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "I69548AG",
 "url_bienici": "https://www.bienici.com/annonce/ag130161-560978648",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111044371.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
@@ -1305,31 +1030,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-18T20:19:23.398Z",
-"deja_propose": null
-},
-{
-"id": "fi:110007683",
-"sources": [
-"figaro"
-],
-"loyer": 865,
-"pieces": 2,
-"surface": 35.17,
-"arr": 12,
-"quartier": "Saint Julien",
-"agence": "ORPI - 3 Bastides",
-"url_agence": "http://www.orpi.com/agencedes3bastides",
-"reference": "NNJ5-1SY-4AB",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-110007683.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-10-19T12:52:05",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:hektor-xavierradisson13-617",
@@ -1353,37 +1054,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-10-08T15:36:03.685Z",
-"deja_propose": null
-},
-{
-"id": "fi:109205301",
-"sources": [
-"figaro"
-],
-"loyer": 890,
-"pieces": 2,
-"surface": 40,
-"arr": 11,
-"quartier": "La Valentine",
-"agence": "HUMAN Immobilier Marseille 10",
-"url_agence": "https://www.human-immobilier.fr/",
-"reference": "ES-VILLAGIO",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-109205301.html",
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-09-26T05:20:25",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:era-2-51710736",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 895,
 "pieces": 2,
@@ -1394,7 +1070,7 @@
 "url_agence": "https://www.google.com/search?q=ERA%20SUDESTIMMO%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "SM800",
 "url_bienici": "https://www.bienici.com/annonce/era-2-51710736",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-97977339.html",
+"url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
@@ -1402,13 +1078,12 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null
+"deja_propose": "2026-11-25"
 },
 {
 "id": "bi:era-2-59469122",
 "sources": [
-"bienici",
-"figaro"
+"bienici"
 ],
 "loyer": 900,
 "pieces": 3,
@@ -1419,7 +1094,7 @@
 "url_agence": "https://www.google.com/search?q=Era%20Agence%20de%20la%20Bastide%20agence%20immobili%C3%A8re%20Marseille",
 "reference": "27038-cm",
 "url_bienici": "https://www.bienici.com/annonce/era-2-59469122",
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-92652947.html",
+"url_figaro": null,
 "exterieur": "balcon",
 "parking": true,
 "parking_option": false,
@@ -1427,23 +1102,127 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": "2026-11-25"
+},
+{
+"id": "bi:hektor-berthoz-2063",
+"sources": [
+"bienici"
+],
+"loyer": 895,
+"pieces": 2,
+"surface": 45,
+"arr": 6,
+"quartier": "Lodi",
+"agence": "STE IMMO BERTHOZ",
+"url_agence": "https://cabinet-berthoz.fr/",
+"reference": "GOUFFE3",
+"url_bienici": "https://www.bienici.com/annonce/hektor-berthoz-2063",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": false,
+"parking_option": false,
+"ext_source": "description",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "2026-10-08T11:54:09.054Z",
 "deja_propose": null
 },
 {
-"id": "fi:96404443",
+"id": "bi:ag210198-559262498",
 "sources": [
-"figaro"
+"bienici"
 ],
-"loyer": 560,
+"loyer": 938,
 "pieces": 2,
-"surface": 31,
+"surface": 39,
 "arr": 6,
-"quartier": "Vauban",
-"agence": "ALLO APPART",
-"url_agence": "https://www.allo-appart.fr/",
-"reference": "S10.027",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-96404443.html",
+"quartier": "Lodi",
+"agence": "IMODIRECT",
+"url_agence": "https://www.google.com/search?q=IMODIRECT%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "AN006472",
+"url_bienici": "https://www.bienici.com/annonce/ag210198-559262498",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "annonce",
+"assouplissements": [
+"budget 938 € (> 900 €)"
+],
+"publie": "2026-11-10T19:04:13.612Z",
+"deja_propose": null
+},
+{
+"id": "bi:hektor-DALLAporta-938",
+"sources": [
+"bienici"
+],
+"loyer": 850,
+"pieces": 2,
+"surface": 30.01,
+"arr": 5,
+"quartier": "Baille",
+"agence": "Cabinet DALLAPORTA",
+"url_agence": "https://dallaportaimmobilier.la-boite-immo.com/",
+"reference": "174BAI1",
+"url_bienici": "https://www.bienici.com/annonce/hektor-DALLAporta-938",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": false,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null
+},
+{
+"id": "bi:laforet-immo-facile-21346615",
+"sources": [
+"bienici"
+],
+"loyer": 875,
+"pieces": 3,
+"surface": 68,
+"arr": 5,
+"quartier": "Saint-Pierre",
+"agence": "Laforêt MARSEILLE 04",
+"url_agence": "https://www.google.com/search?q=Lafor%C3%AAt%20MARSEILLE%2004%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "3218",
+"url_bienici": "https://www.bienici.com/annonce/laforet-immo-facile-21346615",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": false,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null
+},
+{
+"id": "bi:ag752861-501251618",
+"sources": [
+"bienici"
+],
+"loyer": 894,
+"pieces": 2,
+"surface": 33,
+"arr": 5,
+"quartier": "Saint-Pierre",
+"agence": "IMMOJEUNE",
+"url_agence": "https://www.google.com/search?q=IMMOJEUNE%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "656",
+"url_bienici": "https://www.bienici.com/annonce/ag752861-501251618",
+"url_figaro": null,
 "exterieur": null,
 "parking": true,
 "parking_option": false,
@@ -1452,33 +1231,267 @@
 "assouplissements": [
 "sans balcon ni terrasse"
 ],
-"publie": "2026-01-24T01:28:51",
+"publie": "1970-01-01T00:00:00.000Z",
 "deja_propose": null
 },
 {
-"id": "fi:111050679",
+"id": "bi:ag135527-560761100",
 "sources": [
-"figaro"
+"bienici"
 ],
-"loyer": 704,
+"loyer": 950,
 "pieces": 2,
-"surface": 32,
-"arr": 6,
-"quartier": "Castellane",
-"agence": "Orpi - AGENCE DU VILLAGE",
-"url_agence": "http://www.orpi.com/agenceduvillage",
-"reference": "DOWC-ZDX-WWN",
-"url_bienici": null,
-"url_figaro": "https://immobilier.lefigaro.fr/annonces/annonce-111050679.html",
-"exterieur": null,
+"surface": 47,
+"arr": 5,
+"quartier": "Saint-Pierre",
+"agence": "IMMO DE FRANCE PROVENCE",
+"url_agence": "https://www.google.com/search?q=IMMO%20DE%20FRANCE%20PROVENCE%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "297",
+"url_bienici": "https://www.bienici.com/annonce/ag135527-560761100",
+"url_figaro": null,
+"exterieur": "terrasse",
 "parking": true,
-"parking_option": true,
-"ext_source": null,
+"parking_option": false,
+"ext_source": "annonce",
 "park_source": "description",
 "assouplissements": [
-"sans balcon ni terrasse"
+"budget 950 € (> 900 €)"
 ],
-"publie": "2026-11-19T12:13:20",
+"publie": "2026-11-17T20:01:12.382Z",
+"deja_propose": null
+},
+{
+"id": "bi:ag135527-557023970",
+"sources": [
+"bienici"
+],
+"loyer": 980,
+"pieces": 2,
+"surface": 48,
+"arr": 5,
+"quartier": "Marseille 5",
+"agence": "IMMO DE FRANCE PROVENCE",
+"url_agence": "https://www.google.com/search?q=IMMO%20DE%20FRANCE%20PROVENCE%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "T2-SARTURAN",
+"url_bienici": "https://www.bienici.com/annonce/ag135527-557023970",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": true,
+"parking_option": false,
+"ext_source": "description",
+"park_source": "annonce",
+"assouplissements": [
+"budget 980 € (> 900 €)"
+],
+"publie": "2026-10-31T01:36:19.592Z",
+"deja_propose": null
+},
+{
+"id": "bi:ag132057-541833962",
+"sources": [
+"bienici"
+],
+"loyer": 617,
+"pieces": 1,
+"surface": 21,
+"arr": 5,
+"quartier": "Baille",
+"agence": "C2 IMMO",
+"url_agence": "https://c2-immo.fr/",
+"reference": "260722-090439",
+"url_bienici": "https://www.bienici.com/annonce/ag132057-541833962",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "description",
+"assouplissements": [
+"T1"
+],
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null
+},
+{
+"id": "bi:citya-immobilier-1282-GES83140004-93",
+"sources": [
+"bienici"
+],
+"loyer": 480,
+"pieces": 2,
+"surface": 60.1,
+"arr": 10,
+"quartier": "La Timone",
+"agence": "Citya Perier Immobilier",
+"url_agence": "https://www.citya.com/",
+"reference": "GES83140004-93",
+"url_bienici": "https://www.bienici.com/annonce/citya-immobilier-1282-GES83140004-93",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": false,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null
+},
+{
+"id": "bi:netty-company39599kba-appt-2312",
+"sources": [
+"bienici"
+],
+"loyer": 650,
+"pieces": 2,
+"surface": 29.73,
+"arr": 10,
+"quartier": "Marseille 10",
+"agence": "AU BUREAU DE L'IMMO",
+"url_agence": "https://www.google.com/search?q=AU%20BUREAU%20DE%20L%27IMMO%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "LA2312-ABDL",
+"url_bienici": "https://www.bienici.com/annonce/netty-company39599kba-appt-2312",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": false,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "2026-10-30T16:57:31.664Z",
+"deja_propose": null
+},
+{
+"id": "bi:hektor-comtesseciotat-56874",
+"sources": [
+"bienici"
+],
+"loyer": 770,
+"pieces": 2,
+"surface": 39,
+"arr": 10,
+"quartier": "La Capelette",
+"agence": "LA COMTESSE IMMOBILIER ",
+"url_agence": "http://www.lacomtesse.fr/",
+"reference": "842*",
+"url_bienici": "https://www.bienici.com/annonce/hektor-comtesseciotat-56874",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": false,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "2026-11-20T09:27:49.466Z",
+"deja_propose": null
+},
+{
+"id": "bi:era-2-58816166",
+"sources": [
+"bienici"
+],
+"loyer": 984.42,
+"pieces": 2,
+"surface": 54,
+"arr": 10,
+"quartier": "Saint-Tronc",
+"agence": "Era Agence de la Bastide",
+"url_agence": "https://www.google.com/search?q=Era%20Agence%20de%20la%20Bastide%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "26699-CM",
+"url_bienici": "https://www.bienici.com/annonce/era-2-58816166",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": true,
+"parking_option": false,
+"ext_source": "description",
+"park_source": "description",
+"assouplissements": [
+"budget 984.42 € (> 900 €)"
+],
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null
+},
+{
+"id": "bi:netty-company39599kba-appt-2045",
+"sources": [
+"bienici"
+],
+"loyer": 997,
+"pieces": 3,
+"surface": 64.5,
+"arr": 10,
+"quartier": "Marseille 10",
+"agence": "AU BUREAU DE L'IMMO",
+"url_agence": "https://www.google.com/search?q=AU%20BUREAU%20DE%20L%27IMMO%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "LA2045-ABDL",
+"url_bienici": "https://www.bienici.com/annonce/netty-company39599kba-appt-2045",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "annonce",
+"assouplissements": [
+"budget 997 € (> 900 €)"
+],
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null
+},
+{
+"id": "bi:ag132582-555202649",
+"sources": [
+"bienici"
+],
+"loyer": 695,
+"pieces": 1,
+"surface": 19,
+"arr": 10,
+"quartier": "La Capelette",
+"agence": "IMMOBILIERE PUJOL",
+"url_agence": "http://www.immobiliere-pujol.fr/",
+"reference": "974neot",
+"url_bienici": "https://www.bienici.com/annonce/ag132582-555202649",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "annonce",
+"assouplissements": [
+"T1"
+],
+"publie": "2026-10-21T07:40:16.491Z",
+"deja_propose": null
+},
+{
+"id": "bi:netty-egagency-appt-2529",
+"sources": [
+"bienici"
+],
+"loyer": 700,
+"pieces": 1,
+"surface": 22,
+"arr": 10,
+"quartier": "La Capelette",
+"agence": "EG AGENCY",
+"url_agence": "https://egagency.fr/",
+"reference": "LA2529-EGAGENCY",
+"url_bienici": "https://www.bienici.com/annonce/netty-egagency-appt-2529",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": true,
+"parking_option": true,
+"ext_source": "annonce",
+"park_source": "description",
+"assouplissements": [
+"T1"
+],
+"publie": "1970-01-01T00:00:00.000Z",
 "deja_propose": null
 }
 ]
