@@ -24,6 +24,7 @@ CRITERES = {
     "budget": 900,
     "budget_max_assoupli": 1000,
     "arr_pref": [6, 5, 10, 4, 9, 3, 2, 8],
+    "dispo_min": "2026-12-25",  # « parfait ++ » : parfait ET disponible à partir de cette date
 }
 ECHECS = []  # sources indisponibles pendant cette analyse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,6 +67,39 @@ def mots(desc):
         if re.search(r"(en sus|en supplement|en option|moyennant|possibilite|possible|disponible a la location|pour \d+ ?(eur|e|euros)? ?(par )?mois)", apres):
             park = "option"
     return ext, park
+
+
+MOIS = {"janvier": 1, "fevrier": 2, "mars": 3, "avril": 4, "mai": 5, "juin": 6, "juillet": 7, "aout": 8,
+        "septembre": 9, "octobre": 10, "novembre": 11, "decembre": 12}
+RE_DISPO = r"(disponible|disponibilite|dispo|libre|liberation|a partir du|a compter du|entree dans les lieux|date d entree|a louer au|a louer a partir)"
+
+
+def dispo_texte(desc, today=None):
+    """Date de disponibilité lue dans la description (ISO) ou 'immediate' ; None si rien."""
+    today = today or datetime.date.today()
+    d = norm(desc)
+    for m in re.finditer(RE_DISPO, d):
+        z = d[m.end():m.end() + 60]
+        if re.match(r"\s*(immediatement|de suite|tout de suite|immediate|maintenant|des maintenant|des a present)", z):
+            return "immediate"
+        n = re.search(r"\b(\d{1,2}) (\d{1,2}) (\d{2,4})\b", z)
+        if n:
+            j, mo, a = int(n.group(1)), int(n.group(2)), int(n.group(3))
+            a = a + 2000 if a < 100 else a
+            try:
+                return datetime.date(a, mo, j).isoformat()
+            except ValueError:
+                pass
+        n = re.search(r"\b(?:(debut|mi|fin|courant|1er|\d{1,2}) )?(" + "|".join(MOIS) + r")(?: (\d{4}))?", z)
+        if n:
+            pre, mo, a = n.group(1), MOIS[n.group(2)], n.group(3)
+            j = {"debut": 1, "1er": 1, "mi": 15, "courant": 10, "fin": 28}.get(pre) or (int(pre) if pre and pre.isdigit() else 1)
+            a = int(a) if a else (today.year if mo >= today.month else today.year + 1)
+            try:
+                return datetime.date(a, mo, min(j, 28)).isoformat()
+            except ValueError:
+                pass
+    return None
 
 
 def arr_from_cp(cp):
@@ -136,6 +170,9 @@ def bienici_detail(x):
         u = urllib.parse.urlparse(fee)
         x["url_agence"] = f"{u.scheme}://{u.netloc}/"
     x["reference"] = d.get("reference")
+    ad = (d.get("availableDate") or "")[:10]
+    if ad and ad > (datetime.date.today() - datetime.timedelta(days=30)).isoformat():
+        x["_dispo_struct"] = ad
     if d.get("charges") is not None:
         x["charges"] = d.get("charges")
 
@@ -265,6 +302,16 @@ def fusion(items):
 
 
 def evalue(x):
+    # disponibilité : description d'abord (plus fiable que le champ du site, souvent ancien)
+    dt = dispo_texte(x.get("description"))
+    if dt == "immediate":
+        x["dispo"], x["dispo_source"] = datetime.date.today().isoformat(), "description"
+    elif dt:
+        x["dispo"], x["dispo_source"] = dt, "description"
+    elif x.get("_dispo_struct"):
+        x["dispo"], x["dispo_source"] = x["_dispo_struct"], "annonce"
+    else:
+        x["dispo"], x["dispo_source"] = None, None
     se, sp = x.get("_struct") or (None, False)
     de, dp = mots(x.get("description"))
     x["exterieur"] = se or de
@@ -285,6 +332,7 @@ def evalue(x):
     if not x["parking"]:
         ass.append("sans parking")
     x["assouplissements"] = ass
+    x["parfait_pp"] = not ass and bool(x["dispo"]) and x["dispo"] >= CRITERES["dispo_min"]
     pref = CRITERES["arr_pref"]
     x["rang_arr"] = pref.index(x["arr"]) if x["arr"] in pref else len(pref) + (0 if x["arr"] in (1, 7) else 1)
     surf = float(x.get("surface") or 0)
@@ -325,7 +373,7 @@ def main():
 
     cands = [x for x in items if not x["deja_sur_site"] and not x["suspect"] and len(x["assouplissements"]) <= 1 and x["pieces"] >= 1]
     def cle(x):
-        return (len(x["assouplissements"]), x["rang_arr"], 0 if x["pieces"] in CRITERES["pieces"] else 1, x["loyer"])
+        return (len(x["assouplissements"]), 0 if x.get("parfait_pp") else 1, x["rang_arr"], 0 if x["pieces"] in CRITERES["pieces"] else 1, x["loyer"])
     cands.sort(key=cle)
     top = cands[:10]
     if len(top) < 10:  # compléter avec deux assouplissements si besoin
@@ -343,11 +391,12 @@ def main():
     if a.site:
         champs = ("id", "sources", "loyer", "pieces", "surface", "arr", "quartier", "agence", "url_agence", "reference",
                   "url_bienici", "url_figaro", "exterieur", "parking", "parking_option", "ext_source", "park_source",
-                  "assouplissements", "publie", "deja_propose")
+                  "assouplissements", "publie", "deja_propose", "dispo", "dispo_source", "parfait_pp")
         sug = {"genere": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
                "lues": {"bienici": len(bi), "figaro": len(fi)},
                "echecs": ECHECS,
                "parfaits": sum(1 for x in items if not x["assouplissements"] and not x["suspect"]),
+               "parfaits_pp": sum(1 for x in items if x.get("parfait_pp") and not x["suspect"]),
                "criteres": CRITERES,
                "annonces": [{k: x.get(k) for k in champs} for x in pool]}
         json.dump(sug, open(os.path.join(ROOT, "suggestions.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
@@ -362,7 +411,7 @@ def main():
          f"Parfaits trouvés : {nb_parfaits}. "
          + ("Doublons avec « Mes logements » exclus : " + str(sum(1 for x in items if x['deja_sur_site'])) + "." if sites is not None else "⚠️ Site « Mes logements » non consulté : les doublons n'ont pas été vérifiés."), ""]
     for n, x in enumerate(top, 1):
-        etiquette = "⭐ PARFAIT" if not x["assouplissements"] else "≈ " + " + ".join(x["assouplissements"])
+        etiquette = ("⭐⭐ PARFAIT ++ (dispo " + x["dispo"] + ")") if x.get("parfait_pp") else "⭐ PARFAIT" if not x["assouplissements"] else "≈ " + " + ".join(x["assouplissements"])
         arr = "1er" if x["arr"] == 1 else f"{x['arr']}e"
         ext = (x["exterieur"] or "—") + (" (d'après la description)" if x["ext_source"] == "description" else "")
         park = ("en option, payant en plus" if x.get("parking_option") else ("oui" if x["parking"] else "non")) + (" (d'après la description)" if x["park_source"] == "description" else "")

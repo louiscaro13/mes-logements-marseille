@@ -153,6 +153,7 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
 .sughead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
 .tier{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;display:inline-block}
 .tier.p{background:var(--warn-bg);border:1px solid var(--warn-line)}
+.tier.pp{background:var(--s4);border:1px solid var(--s4);color:#1a1200}
 .tier.a{background:var(--surface-2);border:1px solid var(--border);color:var(--text-2);font-weight:500}
 .item.sug{cursor:default}
 .item.sug .acts{display:flex;gap:8px;flex-wrap:wrap}
@@ -232,8 +233,8 @@ legend{font-weight:600;padding:0 6px;font-size:13.5px}
 
   <section class="view" id="v-suggestions">
     <div class="sughead"><div><h2 style="margin:0">Suggestions du jour</h2><div class="hint" id="sugInfo"></div></div>
-      <div class="filters" style="margin:0"><select id="sugFilter"><option value="">Toutes</option><option value="parfait">⭐ Parfaits seulement</option></select><button class="btn sm" id="sugUnhide" hidden>Réafficher les masquées</button></div></div>
-    <div class="hint" style="margin:6px 0 14px">Critères : T2 ou T3, 900 € charges comprises max, balcon ou terrasse, parking ou box ; arrondissements dans l'ordre 6e, 5e, 10e, 4e, 9e, 3e, 2e, 8e. Sinon, un seul critère assoupli (jusqu'à 1 000 €, T1, sans extérieur ou sans parking). Les annonces déjà dans « Mes logements » n'apparaissent pas. Source : Bien'ici, qui regroupe les annonces de la plupart des agences (Le Figaro, SeLoger, Leboncoin et PAP bloquent la lecture automatique depuis les serveurs de GitHub).</div>
+      <div class="filters" style="margin:0"><select id="sugFilter"><option value="">Toutes</option><option value="pp">⭐⭐ Parfaits ++ seulement</option><option value="parfait">⭐ Parfaits seulement</option></select><button class="btn sm" id="sugUnhide" hidden>Réafficher les masquées</button></div></div>
+    <div class="hint" style="margin:6px 0 14px">Critères : T2 ou T3, 900 € charges comprises max, balcon ou terrasse, parking ou box ; arrondissements dans l'ordre 6e, 5e, 10e, 4e, 9e, 3e, 2e, 8e. Sinon, un seul critère assoupli (jusqu'à 1 000 €, T1, sans extérieur ou sans parking). ⭐⭐ « Parfait ++ » = parfait et disponible à partir du 25/12/2026. Les annonces déjà dans « Mes logements » n'apparaissent pas. Source : Bien'ici, qui regroupe les annonces de la plupart des agences (Le Figaro, SeLoger, Leboncoin et PAP bloquent la lecture automatique depuis les serveurs de GitHub).</div>
     <div class="list" id="sugList"></div>
     <div style="text-align:center;margin-top:14px"><button class="btn" id="sugMore" hidden></button></div>
   </section>
@@ -668,10 +669,10 @@ async function loadSug(){
 function renderSug(){
   if(!SUG) return;
   const g=new Date(SUG.genere), old=(Date.now()-g)/36e5>30;
-  $("#sugInfo").innerHTML = `Mis à jour le ${esc(g.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}))} à ${esc(g.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))} · ${(+SUG.lues?.bienici||0)+(+SUG.lues?.figaro||0)} annonces analysées · ${+SUG.parfaits||0} parfaites` + (old?" · ⚠️ pas de mise à jour récente":"") + ((SUG.echecs||[]).length?` · ⚠️ ${esc(SUG.echecs.join(" et "))} n'a pas pu être lu aujourd'hui`:"") + " · nouvelle liste chaque jour avant 17 h";
-  const hid=sugHidden(), onlyP=$("#sugFilter").value==="parfait";
+  $("#sugInfo").innerHTML = `Mis à jour le ${esc(g.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}))} à ${esc(g.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}))} · ${(+SUG.lues?.bienici||0)+(+SUG.lues?.figaro||0)} annonces analysées · ${+SUG.parfaits||0} parfaites dont ${+SUG.parfaits_pp||0} « parfait ++ »` + (old?" · ⚠️ pas de mise à jour récente":"") + ((SUG.echecs||[]).length?` · ⚠️ ${esc(SUG.echecs.join(" et "))} n'a pas pu être lu aujourd'hui`:"") + " · nouvelle liste chaque jour avant 17 h";
+  const hid=sugHidden(), fv=$("#sugFilter").value, onlyP=fv==="parfait", onlyPP=fv==="pp";
   const all=(SUG.annonces||[]).filter(s=>s&&s.arr&&s.loyer);
-  const list=all.filter(s=>!hid.has(s.id) && !sugOnSite(s) && (!onlyP||!(s.assouplissements||[]).length));
+  const list=all.filter(s=>!hid.has(s.id) && !sugOnSite(s) && (!onlyP||!(s.assouplissements||[]).length) && (!onlyPP||s.parfait_pp));
   $("#sugUnhide").hidden=!all.some(s=>hid.has(s.id));
   const shown=list.slice(0,sugShown);
   $("#sugMore").hidden=list.length<=sugShown; $("#sugMore").textContent=`Afficher ${Math.min(10,list.length-sugShown)} de plus (${list.length-sugShown} restantes)`;
@@ -685,10 +686,10 @@ function renderSug(){
     const links=[safe(s.url_bienici)?`<a href="${esc(safe(s.url_bienici))}" target="_blank" rel="noopener">Bien'ici ↗</a>`:"", safe(s.url_figaro)?`<a href="${esc(safe(s.url_figaro))}" target="_blank" rel="noopener">Le Figaro ↗</a>`:"",
       safe(s.url_agence)?`<a href="${esc(safe(s.url_agence))}" target="_blank" rel="noopener">${esc(s.agence||"Agence")} ↗</a>`:(s.agence?`<span>${esc(s.agence)}</span>`:"")].join("");
     return `<div class="item sug" style="--sc:var(${parfait?"--s4":"--border"})">
-      <div class="top"><div><span class="tier ${parfait?"p":"a"}">${parfait?"⭐ Parfait":"≈ "+esc(ass.join(" + "))}</span> ${nouveau?'<span class="chip on">🆕 nouveau</span>':`<span class="chip">proposé depuis le ${esc(fmtShort(s.deja_propose))}</span>`}
+      <div class="top"><div><span class="tier ${s.parfait_pp?"pp":parfait?"p":"a"}">${s.parfait_pp?"⭐⭐ Parfait ++":parfait?"⭐ Parfait":"≈ "+esc(ass.join(" + "))}</span> ${nouveau?'<span class="chip on">🆕 nouveau</span>':`<span class="chip">proposé depuis le ${esc(fmtShort(s.deja_propose))}</span>`}
         <div class="title" style="margin-top:6px">${i+1}. T${+s.pieces} · ${esc(s.surface?String(s.surface).replace(".",",")+" m²":"surface ?")}</div>
         <div class="loc">📍 ${esc(s.quartier||"Quartier non précisé")} · ${esc(arr)} arr.</div></div><div class="price">${esc(fmtEur(s.loyer))}</div></div>
-      <div class="chips">${ext}${park}</div>
+      <div class="chips">${ext}${park}${s.dispo?`<span class="chip${s.parfait_pp?" on":""}">📆 Dispo ${s.dispo<=today?"immédiate":"le "+esc(new Date(s.dispo+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"}))}${s.dispo_source==="annonce"?"":" (description)"}</span>`:'<span class="chip">📆 Dispo non précisée</span>'}</div>
       <div class="foot"><div class="links">${links}</div>${s.reference?`<span>réf. ${esc(s.reference)}</span>`:""}</div>
       <div class="acts"><button class="btn sm primary" data-sugadd="${esc(s.id)}">➕ Ajouter à mes logements</button><button class="btn sm" data-sughide="${esc(s.id)}">Masquer</button></div>
     </div>`; }).join("") : `<div class="empty">${all.length?"Toutes les suggestions du jour sont déjà dans vos logements ou masquées.":"Pas de suggestion aujourd'hui."}</div>`;
