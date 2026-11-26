@@ -5,7 +5,7 @@ name: Suggestions du jour
 #
 # GitHub ne garantit pas l'heure des tâches planifiées (retards de plusieurs heures,
 # passages sautés). On tente donc toutes les heures à partir de 14 h (heure de Paris) :
-# le premier passage de la journée fait la liste, les suivants voient qu'elle est déjà
+# le premier passage de la journée (après 14 h) fait la liste, les suivants voient qu'elle est déjà
 # faite et s'arrêtent tout de suite.
 on:
   schedule:
@@ -31,7 +31,7 @@ jobs:
         run: |
           H=$(TZ=Europe/Paris date +%-H)
           AUJ=$(TZ=Europe/Paris date +%F)
-          DERN=$(python3 -c "import json,datetime,zoneinfo;g=json.load(open('suggestions.json'))['genere'];print(datetime.datetime.fromisoformat(g).astimezone(zoneinfo.ZoneInfo('Europe/Paris')).date())" 2>/dev/null || echo aucune)
+          DERN=$(python3 -c "import json,datetime,zoneinfo;g=json.load(open('suggestions.json'))['genere'];d=datetime.datetime.fromisoformat(g).astimezone(zoneinfo.ZoneInfo('Europe/Paris'));print(d.date() if d.hour>=14 else 'avant-14h')" 2>/dev/null || echo aucune)
           echo "Heure à Paris : $H h ; dernière liste : $DERN ; aujourd'hui : $AUJ"
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then echo "go=1" >> "$GITHUB_OUTPUT"
           elif [ "$DERN" = "$AUJ" ]; then echo "Liste du jour déjà faite."
