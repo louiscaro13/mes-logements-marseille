@@ -1,7 +1,7 @@
 {
-"genere": "2026-11-26T23:31:30+00:00",
+"genere": "2026-11-27T21:08:40+00:00",
 "lues": {
-"bienici": 404,
+"bienici": 414,
 "figaro": 0
 },
 "echecs": [
@@ -165,33 +165,6 @@
 "parfait_pp": false
 },
 {
-"id": "bi:laforet-immo-facile-53035072",
-"sources": [
-"bienici"
-],
-"loyer": 740,
-"pieces": 2,
-"surface": 33.49,
-"arr": 5,
-"quartier": "La Conception",
-"agence": "Laforêt MARSEILLE 04",
-"url_agence": "https://www.google.com/search?q=Lafor%C3%AAt%20MARSEILLE%2004%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "6026",
-"url_bienici": "https://www.bienici.com/annonce/laforet-immo-facile-53035072",
-"url_figaro": null,
-"exterieur": "terrasse",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "2026-11-20T12:44:09.276Z",
-"deja_propose": "2026-11-25",
-"dispo": null,
-"dispo_source": null,
-"parfait_pp": false
-},
-{
 "id": "bi:seiitra-elyade_bi-22258",
 "sources": [
 "bienici"
@@ -219,6 +192,33 @@
 "parfait_pp": false
 },
 {
+"id": "bi:citya-immobilier-1282-LAPP5116733",
+"sources": [
+"bienici"
+],
+"loyer": 781,
+"pieces": 2,
+"surface": 43.75,
+"arr": 10,
+"quartier": "Saint-Loup",
+"agence": "Citya Perier Immobilier",
+"url_agence": "https://www.citya.com/",
+"reference": "LAPP5116733",
+"url_bienici": "https://www.bienici.com/annonce/citya-immobilier-1282-LAPP5116733",
+"url_figaro": null,
+"exterieur": "balcon",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "annonce",
+"assouplissements": [],
+"publie": "2026-11-03T16:07:25.172Z",
+"deja_propose": null,
+"dispo": null,
+"dispo_source": null,
+"parfait_pp": false
+},
+{
 "id": "bi:citya-immobilier-1282-GES57230076-93",
 "sources": [
 "bienici"
@@ -241,6 +241,33 @@
 "assouplissements": [],
 "publie": "2026-11-14T16:05:30.925Z",
 "deja_propose": "2026-11-25",
+"dispo": null,
+"dispo_source": null,
+"parfait_pp": false
+},
+{
+"id": "bi:nestenn-1-99938539048",
+"sources": [
+"bienici"
+],
+"loyer": 830,
+"pieces": 2,
+"surface": 48,
+"arr": 10,
+"quartier": "La Timone",
+"agence": "NESTENN MARSEILLE 08",
+"url_agence": "https://www.google.com/search?q=NESTENN%20MARSEILLE%2008%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "588",
+"url_bienici": "https://www.bienici.com/annonce/nestenn-1-99938539048",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": true,
+"parking_option": false,
+"ext_source": "annonce",
+"park_source": "annonce",
+"assouplissements": [],
+"publie": "2026-11-27T17:15:21.041Z",
+"deja_propose": null,
 "dispo": null,
 "dispo_source": null,
 "parfait_pp": false
@@ -418,7 +445,7 @@
 "arr": 9,
 "quartier": "Sainte-Marguerite",
 "agence": "GUIS IMMOBILIER",
-"url_agence": "https://www.google.com/search?q=GUIS%20IMMOBILIER%20agence%20immobili%C3%A8re%20Marseille",
+"url_agence": "https://www.stein-immo.fr/",
 "reference": "LO018260506",
 "url_bienici": "https://www.bienici.com/annonce/ag135026-552041396",
 "url_figaro": null,
@@ -456,36 +483,36 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "2026-11-26T18:45:32.394Z",
-"deja_propose": null,
+"deja_propose": "2026-11-26",
 "dispo": null,
 "dispo_source": null,
 "parfait_pp": false
 },
 {
-"id": "bi:ag135528-561138296",
+"id": "bi:era-2-58747327",
 "sources": [
 "bienici"
 ],
-"loyer": 900,
+"loyer": 895,
 "pieces": 2,
-"surface": 53,
+"surface": 35.75,
 "arr": 9,
-"quartier": "Marseille 9",
-"agence": "IMREP L'immobilier coté sud",
-"url_agence": "http://www.imrep.fr/",
-"reference": "7946326",
-"url_bienici": "https://www.bienici.com/annonce/ag135528-561138296",
+"quartier": "Mazargues",
+"agence": "ERA ADEQUAT IMMOBILIER",
+"url_agence": "https://www.google.com/search?q=ERA%20ADEQUAT%20IMMOBILIER%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "2594",
+"url_bienici": "https://www.bienici.com/annonce/era-2-58747327",
 "url_figaro": null,
 "exterieur": "terrasse",
 "parking": true,
 "parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
+"ext_source": "description",
+"park_source": "description",
 "assouplissements": [],
-"publie": "2026-11-19T12:04:10.331Z",
-"deja_propose": "2026-11-25",
-"dispo": null,
-"dispo_source": null,
+"publie": "1970-01-01T00:00:00.000Z",
+"deja_propose": null,
+"dispo": "2026-11-27",
+"dispo_source": "description",
 "parfait_pp": false
 },
 {
@@ -754,7 +781,7 @@
 "assouplissements": [],
 "publie": "2026-11-20T09:27:49.466Z",
 "deja_propose": "2026-11-25",
-"dispo": "2026-11-26",
+"dispo": "2026-11-27",
 "dispo_source": "description",
 "parfait_pp": false
 },
@@ -996,35 +1023,8 @@
 "park_source": "annonce",
 "assouplissements": [],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": null,
+"deja_propose": "2026-11-26",
 "dispo": "2026-12-03",
-"dispo_source": "annonce",
-"parfait_pp": false
-},
-{
-"id": "bi:nockee-prop_ad_0345wHPuRAeAUfhUr2nwBB",
-"sources": [
-"bienici"
-],
-"loyer": 860,
-"pieces": 2,
-"surface": 44,
-"arr": 14,
-"quartier": "Saint-Barthélémy",
-"agence": "clickandrent",
-"url_agence": "https://www.google.com/search?q=clickandrent%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "A880",
-"url_bienici": "https://www.bienici.com/annonce/nockee-prop_ad_0345wHPuRAeAUfhUr2nwBB",
-"url_figaro": null,
-"exterieur": "balcon",
-"parking": true,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": "annonce",
-"assouplissements": [],
-"publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": "2026-11-25",
-"dispo": "2026-11-24",
 "dispo_source": "annonce",
 "parfait_pp": false
 },
@@ -1104,7 +1104,7 @@
 "park_source": "description",
 "assouplissements": [],
 "publie": "2026-11-26T19:39:37.178Z",
-"deja_propose": null,
+"deja_propose": "2026-11-26",
 "dispo": null,
 "dispo_source": null,
 "parfait_pp": false
@@ -1249,7 +1249,7 @@
 "parfait_pp": false
 },
 {
-"id": "bi:hektor-DALLAporta-938",
+"id": "bi:hektor-DALLAporta-941",
 "sources": [
 "bienici"
 ],
@@ -1260,8 +1260,8 @@
 "quartier": "Baille",
 "agence": "Cabinet DALLAPORTA",
 "url_agence": "https://dallaportaimmobilier.la-boite-immo.com/",
-"reference": "174BAI1",
-"url_bienici": "https://www.bienici.com/annonce/hektor-DALLAporta-938",
+"reference": "174BAI2",
+"url_bienici": "https://www.bienici.com/annonce/hektor-DALLAporta-941",
 "url_figaro": null,
 "exterieur": "terrasse",
 "parking": false,
@@ -1272,8 +1272,8 @@
 "sans parking"
 ],
 "publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": "2026-11-25",
-"dispo": "2026-11-26",
+"deja_propose": null,
+"dispo": "2026-11-27",
 "dispo_source": "description",
 "parfait_pp": false
 },
@@ -1301,36 +1301,7 @@
 "sans parking"
 ],
 "publie": "2026-11-25T20:58:35.869Z",
-"deja_propose": null,
-"dispo": null,
-"dispo_source": null,
-"parfait_pp": false
-},
-{
-"id": "bi:laforet-immo-facile-21346615",
-"sources": [
-"bienici"
-],
-"loyer": 875,
-"pieces": 3,
-"surface": 68,
-"arr": 5,
-"quartier": "Saint-Pierre",
-"agence": "Laforêt MARSEILLE 04",
-"url_agence": "https://www.google.com/search?q=Lafor%C3%AAt%20MARSEILLE%2004%20agence%20immobili%C3%A8re%20Marseille",
-"reference": "3218",
-"url_bienici": "https://www.bienici.com/annonce/laforet-immo-facile-21346615",
-"url_figaro": null,
-"exterieur": "balcon",
-"parking": false,
-"parking_option": false,
-"ext_source": "annonce",
-"park_source": null,
-"assouplissements": [
-"sans parking"
-],
-"publie": "1970-01-01T00:00:00.000Z",
-"deja_propose": "2026-11-25",
+"deja_propose": "2026-11-26",
 "dispo": null,
 "dispo_source": null,
 "parfait_pp": false
@@ -1360,7 +1331,7 @@
 ],
 "publie": "1970-01-01T00:00:00.000Z",
 "deja_propose": "2026-11-25",
-"dispo": "2026-11-26",
+"dispo": "2026-11-27",
 "dispo_source": "description",
 "parfait_pp": false
 },
@@ -1447,7 +1418,7 @@
 ],
 "publie": "1970-01-01T00:00:00.000Z",
 "deja_propose": "2026-11-25",
-"dispo": "2026-11-26",
+"dispo": "2026-11-27",
 "dispo_source": "description",
 "parfait_pp": false
 },
@@ -1505,8 +1476,8 @@
 ],
 "publie": "2026-10-30T16:57:31.664Z",
 "deja_propose": "2026-11-25",
-"dispo": "2026-10-28",
-"dispo_source": "annonce",
+"dispo": null,
+"dispo_source": null,
 "parfait_pp": false
 },
 {
@@ -1514,7 +1485,7 @@
 "sources": [
 "bienici"
 ],
-"loyer": 770,
+"loyer": 750,
 "pieces": 2,
 "surface": 39,
 "arr": 10,
@@ -1534,7 +1505,7 @@
 ],
 "publie": "2026-11-20T09:27:49.466Z",
 "deja_propose": "2026-11-25",
-"dispo": "2026-11-26",
+"dispo": "2026-11-27",
 "dispo_source": "description",
 "parfait_pp": false
 },
@@ -1562,7 +1533,7 @@
 "sans parking"
 ],
 "publie": "2026-11-25T21:22:12.352Z",
-"deja_propose": null,
+"deja_propose": "2026-11-26",
 "dispo": "2026-11-25",
 "dispo_source": "annonce",
 "parfait_pp": false
@@ -1680,6 +1651,35 @@
 "publie": "1970-01-01T00:00:00.000Z",
 "deja_propose": "2026-11-25",
 "dispo": "2026-12-01",
+"dispo_source": "description",
+"parfait_pp": false
+},
+{
+"id": "bi:ladresse-1-adresse-14714622",
+"sources": [
+"bienici"
+],
+"loyer": 756,
+"pieces": 2,
+"surface": 28.05,
+"arr": 4,
+"quartier": "La Blancarde",
+"agence": "l'Adresse Marseille 8",
+"url_agence": "https://www.google.com/search?q=l%27Adresse%20Marseille%208%20agence%20immobili%C3%A8re%20Marseille",
+"reference": "8354",
+"url_bienici": "https://www.bienici.com/annonce/ladresse-1-adresse-14714622",
+"url_figaro": null,
+"exterieur": "terrasse",
+"parking": false,
+"parking_option": false,
+"ext_source": "description",
+"park_source": null,
+"assouplissements": [
+"sans parking"
+],
+"publie": "2026-11-27T15:51:35.556Z",
+"deja_propose": null,
+"dispo": "2026-11-27",
 "dispo_source": "description",
 "parfait_pp": false
 }
